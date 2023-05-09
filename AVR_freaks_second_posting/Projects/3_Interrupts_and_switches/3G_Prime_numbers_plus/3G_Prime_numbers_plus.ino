@@ -26,18 +26,22 @@ Switch location SW1(PD2) - SW2(PD7) – SW3(PB2).*/
 
 #include "Prime_numbers_plus_header.h"
 
+void prime_no_generator_plus( int,int,  unsigned int *);
+
+
+void Num_string_from_KBD_Basic(char *);
 void Num_to_PC_Basic (long);
 volatile int start_1=0;
 
 int main (void){
 int l, start, counter_1, counter_2, array_size=100; 
-int  array[array_size];
+unsigned int  array[array_size];
 int factor[10], number;
 char digit_array[8], line_counter=0;
 
 
 
-setup_HW_basic;
+setup_328_HW_Basic_IO;
 
 //User_prompt;
 set_up_PCI;
@@ -59,11 +63,11 @@ for(int k =0; k < array_size; k++)
 prime_no_generator_plus(l,array_size,array);                    //sets non primes_plus to zero
 {int j=0; 
 while(j<array_size){if (array[j] != 0)
-{Int_to_PC_Basic(array[j]);I2C_Tx_long(array[j]);                //Display primes_plus
+{Num_to_PC_Basic(array[j]);Int_num_to_display(array[j]);                //Display primes_plus
 counter_1++; counter_2++; Char_to_PC_Basic(' ');                 //Count the numbers
 Timer_T1_sub(T1_delay_100ms);}  
 j++;}}
-l++;} newline_Basic();                                           //repeat 5 times (i.e. for numbers 0 to 499)
+l++;} newline_Basic;                                           //repeat 5 times (i.e. for numbers 0 to 499)
   
 l=start;
 while(l < (start+2)){                                           //Repeat but obtain real prime numbers only
@@ -76,8 +80,8 @@ j++;}}l++;}
 
 disable_pci_on_sw1;
 
-Int_to_PC_Basic(counter_2);String_to_PC_Basic (" numbers including ");
-Int_to_PC_Basic(counter_1); String_to_PC_Basic (" non prime numbers\r\n");
+Num_to_PC_Basic(counter_2);String_to_PC_Basic (" numbers including ");
+Num_to_PC_Basic(counter_1); String_to_PC_Basic (" non prime numbers\r\n");
 String_to_PC_Basic("Enter number (prime or non-prime?) or 0 to exit\r\n");
 
 line_counter=0;
@@ -85,20 +89,20 @@ line_counter=0;
 while(1){
 
   
-number = Int_from_PC_Basic(digit_array);                                //Enter trial number at the keyboard
+number = Num_from_PC_Basic(digit_array);                                //Enter trial number at the keyboard
 
 if(!(number)) {enable_pci_on_sw3;
 String_to_PC_Basic("Sw3 to continue.\r\n");break;}
-Int_to_PC_Basic(number);String_to_PC_Basic("  ");                       //Echo the number
+Num_to_PC_Basic(number);String_to_PC_Basic("  ");                       //Echo the number
 {int  n = 0; int m=0;
 do{
 factor[n] = Product_search(number);                                     //Search for factors
 number = number/factor[n];n++;} while (number != 1);  
 if (n==1) {String_to_PC_Basic("Prime"); line_control;                   //Only one factor: Print Prime
-I2C_Tx_any_segment_clear_all();_delay_ms(250);
-I2C_Tx_long(factor[0]);}
+clear_display; _delay_ms(250);
+Int_num_to_display(factor[0]);}
 
-else {m=n; for(n=0; n<m; n++){Int_to_PC_Basic(factor[n]);
+else {m=n; for(n=0; n<m; n++){Num_to_PC_Basic(factor[n]);
 Char_to_PC_Basic(' ');}line_control;factors_to_display(factor, m);}}}                                 //Several factors: print them out
 while(start == start_1);                                                //wait for sw3 keypress
 start = start_1;}}
@@ -113,25 +117,42 @@ if(switch_1_up)return; while(switch_1_down);return;}            //Press sw_1 to 
 
 
 /***************************************************************************************************************************************************/
-ISR (PCINT0_vect){
+/*ISR (PCINT0_vect){
 if(switch_3_up) return;
-while (switch_3_down){start_1+=2; Int_to_PC_Basic(start_1);        //Hold sw_3 down to increment start point
+while (switch_3_down){start_1+=2; Num_to_PC_Basic(start_1);        //Hold sw_3 down to increment start point
 Char_to_PC_Basic(' ');Timer_T1_sub(T1_delay_1sec);}                   //for random number generator
-newline_Basic(); 
+newline_Basic; 
 return;}
-
-
+*/
 
 /***************************************************************************************************************************************************/
 void factors_to_display(int * factor, int m){
   
-  for(int n=0; n<m; n++){I2C_Tx_any_segment_clear_all();_delay_ms(100);
-  I2C_Tx_long(factor [n]);while (switch_2_up);while (switch_2_down);}}
-
-
-
-
-
-
-
+//  for(int n=0; n<m; n++){I2C_Tx_any_segment_clear_all();_delay_ms(100);
+//  I2C_Tx_long(factor [n]);while (switch_2_up);while (switch_2_down);}
   
+for(int n=0; n<m; n++){clear_display; _delay_ms(100);
+  Int_num_to_display(factor [n]);while (switch_2_up);while (switch_2_down);}  
+  
+  }
+
+
+
+
+
+
+
+
+/*****************************************************************/
+int Product_search  (int number)  {
+unsigned int search_array[10]; 
+int j=0;
+int n=10;
+int l=0;
+while(1){
+for(int k =0; k < n; k++) {search_array[k] = k+1+n*l;}
+prime_no_generator(l,n,search_array);
+j=0; while(search_array[j] == 0)j++;
+while (j<=10){if ((search_array[j] >= 2) &&  (number%search_array[j] == 0)){return search_array[j];}j++;}
+if(l*10 > number)return 0;
+l++;}}

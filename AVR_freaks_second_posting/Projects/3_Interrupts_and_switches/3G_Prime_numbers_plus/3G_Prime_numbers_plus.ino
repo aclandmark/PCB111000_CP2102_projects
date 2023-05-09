@@ -93,17 +93,24 @@ number = Num_from_PC_Basic(digit_array);                                //Enter 
 
 if(!(number)) {enable_pci_on_sw3;
 String_to_PC_Basic("Sw3 to continue.\r\n");break;}
+Int_num_to_display(number);
+while (switch_2_up)wdr();clear_display;while (switch_2_down)wdr();
+
 Num_to_PC_Basic(number);String_to_PC_Basic("  ");                       //Echo the number
 {int  n = 0; int m=0;
 do{
 factor[n] = Product_search(number);                                     //Search for factors
 number = number/factor[n];n++;} while (number != 1);  
 if (n==1) {String_to_PC_Basic("Prime"); line_control;                   //Only one factor: Print Prime
-clear_display; _delay_ms(250);
+//clear_display; _delay_ms(100);wdr();_delay_ms(100);wdr();
+while (switch_2_up)wdr();clear_display;while (switch_2_down)wdr();
 Int_num_to_display(factor[0]);}
 
 else {m=n; for(n=0; n<m; n++){Num_to_PC_Basic(factor[n]);
-Char_to_PC_Basic(' ');}line_control;factors_to_display(factor, m);}}}                                 //Several factors: print them out
+Char_to_PC_Basic(' ');}line_control;
+
+factors_to_display(factor, m);Int_num_to_display(number);
+}}}                                 //Several factors: print them out
 while(start == start_1);                                                //wait for sw3 keypress
 start = start_1;}}
 
@@ -112,7 +119,7 @@ start = start_1;}}
 
 /***************************************************************************************************************************************************/
 ISR(PCINT2_vect){ 
-if(switch_1_up)return; while(switch_1_down);return;}            //Press sw_1 to pause display
+if(switch_1_up)return; while(switch_1_down)wdr();return;}            //Press sw_1 to pause display
 
 
 
@@ -131,8 +138,11 @@ void factors_to_display(int * factor, int m){
 //  for(int n=0; n<m; n++){I2C_Tx_any_segment_clear_all();_delay_ms(100);
 //  I2C_Tx_long(factor [n]);while (switch_2_up);while (switch_2_down);}
   
-for(int n=0; n<m; n++){clear_display; _delay_ms(100);
-  Int_num_to_display(factor [n]);while (switch_2_up);while (switch_2_down);}  
+for(int n=0; n<m; n++){
+  Int_num_to_display(factor [n]);while (switch_2_up)wdr();clear_display;while (switch_2_down)wdr();
+  
+  
+  }  
   
   }
 

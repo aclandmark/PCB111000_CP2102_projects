@@ -118,6 +118,9 @@ PORTD = 0xFF;
 #define switch_3_down             (PIND & 0x80)^0x80
 
 #define set_up_PCI               PCICR |= (1 << PCIE2);
+#define hold_PCI                PCICR &= (~(1 << PCIE2));
+#define restore_PCI              PCICR |= (1 << PCIE2);
+
 
 //#define set_up_PCI \
 //PCICR |= ((1 << PCIE0) | (1 << PCIE2));

@@ -43,7 +43,6 @@ char digit_array[8], line_counter=0;
 
 setup_328_HW_Basic_IO;
 
-//User_prompt;
 set_up_PCI;
 User_instructions;
 sei();
@@ -63,7 +62,10 @@ for(int k =0; k < array_size; k++)
 prime_no_generator_plus(l,array_size,array);                    //sets non primes_plus to zero
 {int j=0; 
 while(j<array_size){if (array[j] != 0)
-{Num_to_PC_Basic(array[j]);Int_num_to_display(array[j]);                //Display primes_plus
+{Num_to_PC_Basic(array[j]);
+hold_PCI;                                                         //one_wire_comms must not be interrupted by switch presses
+Int_num_to_display(array[j]);                                     //Display primes_plus
+restore_PCI;              
 counter_1++; counter_2++; Char_to_PC_Basic(' ');                 //Count the numbers
 Timer_T1_sub(T1_delay_100ms);}  
 j++;}}
@@ -94,7 +96,6 @@ number = Num_from_PC_Basic(digit_array);                                //Enter 
 if(!(number)) {enable_pci_on_sw3;
 String_to_PC_Basic("Sw3 to continue.\r\n");break;}
 Int_num_to_display(number);
-while (switch_2_up)wdr();clear_display;while (switch_2_down)wdr();
 
 Num_to_PC_Basic(number);String_to_PC_Basic("  ");                       //Echo the number
 {int  n = 0; int m=0;
@@ -102,12 +103,13 @@ do{
 factor[n] = Product_search(number);                                     //Search for factors
 number = number/factor[n];n++;} while (number != 1);  
 if (n==1) {String_to_PC_Basic("Prime"); line_control;                   //Only one factor: Print Prime
-//clear_display; _delay_ms(100);wdr();_delay_ms(100);wdr();
 while (switch_2_up)wdr();clear_display;while (switch_2_down)wdr();
 Int_num_to_display(factor[0]);}
 
 else {m=n; for(n=0; n<m; n++){Num_to_PC_Basic(factor[n]);
 Char_to_PC_Basic(' ');}line_control;
+
+while (switch_2_up)wdr();clear_display;while (switch_2_down)wdr();
 
 factors_to_display(factor, m);Int_num_to_display(number);
 }}}                                 //Several factors: print them out
@@ -119,7 +121,9 @@ start = start_1;}}
 
 /***************************************************************************************************************************************************/
 ISR(PCINT2_vect){ 
-if(switch_1_up)return; while(switch_1_down)wdr();return;}            //Press sw_1 to pause display
+
+    
+if(switch_1_up){return;}while(switch_1_down)wdr();return;}            //Press sw_1 to pause display
 
 
 

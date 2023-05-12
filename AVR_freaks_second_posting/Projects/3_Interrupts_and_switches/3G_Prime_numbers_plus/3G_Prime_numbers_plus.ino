@@ -19,8 +19,7 @@ USER INSTRUCTIONS
 The numbers are sent to the PC screen.
 Type in any that look non-prime terminating each with a "return" keypress.
 Enter zero to exit and press sw3 when requested.
-
-Switch location SW1(PD2) - SW2(PD7) – SW3(PB2).*/
+*/
 
 
 
@@ -31,7 +30,10 @@ void prime_no_generator_plus( int,int,  unsigned int *);
 
 void Num_string_from_KBD_Basic(char *);
 void Num_to_PC_Basic (long);
-volatile int start_1=0;
+
+//volatile int start_1=0;                                   //volatile is another way of specifying a global variable
+int start_1=0;
+
 
 int main (void){
 int l, start, counter_1, counter_2, array_size=100; 
@@ -67,7 +69,7 @@ hold_PCI;                                                         //one_wire_com
 Int_num_to_display(array[j]);                                     //Display primes_plus
 restore_PCI;              
 counter_1++; counter_2++; Char_to_PC_Basic(' ');                 //Count the numbers
-Timer_T1_sub(T1_delay_100ms);}  
+Timer_T1_sub_with_wdr(T1_delay_100ms);}  
 j++;}}
 l++;} newline_Basic;                                           //repeat 5 times (i.e. for numbers 0 to 499)
   
@@ -90,11 +92,10 @@ line_counter=0;
 
 while(1){
 
-  
 number = Num_from_PC_Basic(digit_array);                                //Enter trial number at the keyboard
 
 if(!(number)) {enable_pci_on_sw3;
-String_to_PC_Basic("Sw3 to continue.\r\n");break;}
+String_to_PC_Basic("Sw3 to continue.\r\n");break;}                      //Exit while(1) loop
 Int_num_to_display(number);
 
 Num_to_PC_Basic(number);String_to_PC_Basic("  ");                       //Echo the number
@@ -106,67 +107,40 @@ if (n==1) {String_to_PC_Basic("Prime"); line_control;                   //Only o
 while (switch_2_up)wdr();clear_display;while (switch_2_down)wdr();
 Int_num_to_display(factor[0]);}
 
-else {m=n; for(n=0; n<m; n++){Num_to_PC_Basic(factor[n]);
+else {m=n; for(n=0; n<m; n++){Num_to_PC_Basic(factor[n]);               //Print factors
 Char_to_PC_Basic(' ');}line_control;
 
-while (switch_2_up)wdr();clear_display;while (switch_2_down)wdr();
+while (switch_2_up)wdr();clear_display;while (switch_2_down)wdr();      //Switch press to continue
 
-factors_to_display(factor, m);Int_num_to_display(number);
-}}}                                 //Several factors: print them out
-while(start == start_1);                                                //wait for sw3 keypress
+factors_to_display(factor, m);Int_num_to_display(number);               //Display factors one at a time
+}}}  
+while(start == start_1)wdr();                                           //wait for sw3 keypress interrupt
 start = start_1;}}
-
 
 
 
 /***************************************************************************************************************************************************/
 ISR(PCINT2_vect){ 
+if((switch_1_up) && (switch_3_up))return;
+if(switch_1_down){while(switch_1_down)wdr();return;}                    //Press sw_1 to pause display
 
-    
-if(switch_1_up){return;}while(switch_1_down)wdr();return;}            //Press sw_1 to pause display
-
-
-
-/***************************************************************************************************************************************************/
-/*ISR (PCINT0_vect){
-if(switch_3_up) return;
-while (switch_3_down){start_1+=2; Num_to_PC_Basic(start_1);        //Hold sw_3 down to increment start point
-Char_to_PC_Basic(' ');Timer_T1_sub(T1_delay_1sec);}                   //for random number generator
+while (switch_3_down){start_1+=2; Num_to_PC_Basic(start_1);             //Hold sw_3 down to increment start point
+Char_to_PC_Basic(' ');Timer_T1_sub_with_wdr(T1_delay_1sec);}            //for random number generator
 newline_Basic; 
 return;}
-*/
+
+
 
 /***************************************************************************************************************************************************/
 void factors_to_display(int * factor, int m){
-  
-//  for(int n=0; n<m; n++){I2C_Tx_any_segment_clear_all();_delay_ms(100);
-//  I2C_Tx_long(factor [n]);while (switch_2_up);while (switch_2_down);}
-  
+   
 for(int n=0; n<m; n++){
-  Int_num_to_display(factor [n]);while (switch_2_up)wdr();clear_display;while (switch_2_down)wdr();
+  Int_num_to_display(factor [n]);
+  while (switch_2_up)wdr();
+  clear_display;while (switch_2_down)wdr();}}
   
-  
-  }  
-  
-  }
 
 
 
 
-
-
-
-
-/*****************************************************************/
-int Product_search  (int number)  {
-unsigned int search_array[10]; 
-int j=0;
-int n=10;
-int l=0;
-while(1){
-for(int k =0; k < n; k++) {search_array[k] = k+1+n*l;}
-prime_no_generator(l,n,search_array);
-j=0; while(search_array[j] == 0)j++;
-while (j<=10){if ((search_array[j] >= 2) &&  (number%search_array[j] == 0)){return search_array[j];}j++;}
-if(l*10 > number)return 0;
-l++;}}
+/***************************************************************************************************************************************************/

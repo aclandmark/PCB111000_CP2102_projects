@@ -72,6 +72,18 @@ TIFR1 |= (1<<TOV1); 													//Clear overflow flag
 TCCR1B = 0;}															//Halt counter
 
 
+/**********************************************************************************************************************************************************************************/
+void Timer_T1_sub_with_wdr(char Counter_speed, unsigned int Start_point){ 
+TCNT1H = (Start_point >> 8);
+TCNT1L = Start_point & 0x00FF;											//TCNT1 counts up from its start_point to 0x10000 (zero)
+TIFR1 = 0xFF;															//Clear timer interrupt flags
+TCCR1B = Counter_speed;	
+while(!(TIFR1 && (1<<TOV1)))wdr();											//Wait here for timer to overflow (count from 0xFFFF to zero)
+TIFR1 |= (1<<TOV1); 													//Clear overflow flag
+TCCR1B = 0;}															//Halt counter
+
+
+
 
 /**********************************************************************************************************************************************************************************/
 void Timer_T2_10mS_delay_x_m(int m)

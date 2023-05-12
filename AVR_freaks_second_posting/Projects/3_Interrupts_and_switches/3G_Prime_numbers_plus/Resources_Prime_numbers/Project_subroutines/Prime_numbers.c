@@ -45,3 +45,25 @@ while(i*(i+m) <= n*l)m++;
 if(reg[i*(i+m) -1 - n*l]){
 while(i*(i+m) <= n*(1+l)){reg[i*(i+m) -1 - n*l] = 0; m++; }  }
 i++;}}
+
+
+
+/*****************************************************************/
+int Product_search  (int number)  {
+unsigned int search_array[10]; 
+int j=0;
+int n=10;
+int l=0;
+while(1){
+for(int k =0; k < n; k++) {search_array[k] = k+1+n*l;}
+prime_no_generator(l,n,search_array);
+j=0; while(search_array[j] == 0)j++;
+while (j<=10){if ((search_array[j] >= 2) &&  (number%search_array[j] == 0)){return search_array[j];}j++;}
+if(l*10 > number)return 0;
+l++;}}
+
+
+
+
+
+

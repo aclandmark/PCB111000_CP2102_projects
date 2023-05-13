@@ -72,6 +72,18 @@ TIFR1 |= (1<<TOV1); 													//Clear overflow flag
 TCCR1B = 0;}															//Halt counter
 
 
+/**********************************************************************************************************************************************************************************/
+void Timer_T1_sub_with_wdr(char Counter_speed, unsigned int Start_point){ 
+TCNT1H = (Start_point >> 8);
+TCNT1L = Start_point & 0x00FF;											//TCNT1 counts up from its start_point to 0x10000 (zero)
+TIFR1 = 0xFF;															//Clear timer interrupt flags
+TCCR1B = Counter_speed;	
+while(!(TIFR1 && (1<<TOV1)))wdr();											//Wait here for timer to overflow (count from 0xFFFF to zero)
+TIFR1 |= (1<<TOV1); 													//Clear overflow flag
+TCCR1B = 0;}															//Halt counter
+
+
+
 
 /**********************************************************************************************************************************************************************************/
 void Timer_T2_10mS_delay_x_m(int m)
@@ -135,7 +147,7 @@ else return 1;}
 
 
 
-/**********************************************************************************************************************************************************************************/
+/**********************************************************************************************************************************************************************************
 char isCharavailable_A (int m){int n = 0;								//Version of isCharavailable_Basic() that uses the Arduino library
 while (!(Serial.available())){n++;	wdr();			
 if (n>8000) {m--;n = 0;}if (m == 0)return 0;}	
@@ -143,14 +155,14 @@ return 1;}
 
 
 
-/**********************************************************************************************************************************************************************************/
+*********************************************************************************************************************************************************************************
 char waitforkeypress_A (void){											//Version of waitforkeypress_Basic() that uses the Arduino library
 while (!(Serial.available()))wdr();	
 return Serial.read(); }
 
 
 
-/**********************************************************************************************************************************************************************************/
+**********************************************************************************************************************************************************************************
 char wait_for_return_key_A(void){                  						//Returns key presses one at a time
 char keypress,temp;
 while(1){																//Remain in while loop until a character is received
@@ -164,7 +176,7 @@ return keypress;}
 
 
 
-/**********************************************************************************************************************************************************************************/
+**********************************************************************************************************************************************************************************
 void Check_num_for_to_big_or_small(float num)											//Exits if the result of floating point arithmetic exceeds permitted limits 
 {unsigned long * long_ptr;
 long_ptr = (unsigned long *)&num;														//Enables floating point number to be read as a 32 bit integer 
@@ -173,7 +185,7 @@ if (*long_ptr == 0xFF800000){Serial.write("-ve Num too large\r\n");SW_reset;}
 if (*long_ptr == 0X0){Serial.write("+ve Num too small\r\n");SW_reset;}
 if (*long_ptr == 0X80000000){Serial.write("-ve Num too small\r\n");SW_reset;}}
 
-
+****************************************************************************************************************************************************************************************/
 
 
 

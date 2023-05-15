@@ -22,12 +22,12 @@ for the power series deffinitions
 #define message_1 "\r\nPower function: Enter +ve scientific number\r\n"
 #define message_2 "\r\n\r\nTime_out: Number too large or small. Try again!\r\n"
 
-
+#define BL 30                     //Buffer length
 
 int main (void) 
 
 {
-char Num_string[12];
+char Num_string[BL + 2];
 
 float Num, Num_bkp;                               //Scientfic number pus its backup
 float Pow;                                        //Power to which the number is to be raised
@@ -42,8 +42,8 @@ if(reset_status == 2)Serial.write("?\r\n");
 if(reset_status == 3)Serial.write(message_1);
 if(reset_status == 5)Serial.write(message_2);
 
-Num = Sc_Num_from_PC(Num_string, '\t');           //User enters the scientific number
-
+Num = Sc_Num_from_PC_A(Num_string, BL);           //User enters the scientific number
+Sc_Num_to_PC_A(Num, 1, 6, '\t');
 Num_bkp = Num;
 
 if (Num >= 1.0)                                   //Multiply or divide number by 2 untill it
@@ -54,8 +54,8 @@ if (Num < 1.0)
 {twos_exp = 0; while (Num < 1.0)
 {Num = Num*2.0; twos_exp -= 1;}}
 
-Sc_Num_to_PC(Num, 1, 6, '\t'); 
-Int_Num_to_PC(twos_exp, Num_string, '\r');
+Sc_Num_to_PC_A(Num, 1, 6, '\t'); 
+Int_Num_to_PC_A(twos_exp, Num_string, '\r');
 
 
 
@@ -64,20 +64,22 @@ logN = logE_power_series(Num) +
 ((float)twos_exp * 0.693147);                     //Log to base e of the scientific number
 
 Serial.write("Natural log is  "); 
-Sc_Num_to_PC(logN,1,5,'\r');
+Sc_Num_to_PC_A(logN,1,5,'\r');
 
 
 Serial.write("Enter power  ");
-Pow = Sc_Num_from_PC(Num_string, '\t');           //User enters the power.
-
+Pow = Sc_Num_from_PC_A(Num_string, BL);           //User enters the power.
+Sc_Num_to_PC_A(Pow, 1, 6, '\r');
 Log_result = logN * Pow;                          //The Log of the result
 
 Result = expE_power_series(Log_result);           //Returns the antilog
 
 display_float_num_local(Result);
-Sc_Num_to_PC(Result,1,5,'\r');
+
+Serial.write("Local result\t");
+Sc_Num_to_PC_A(Result,1,5,'\r');
 Serial.write("Library result\t");                   //remove to save overwriting commentary
-Sc_Num_to_PC((pow(Num_bkp,Pow)),1,5,'\r');          //remove to save overwriting commentary
+Sc_Num_to_PC_A((pow(Num_bkp,Pow)),1,5,'\r');          //remove to save overwriting commentary
 
 SW_reset;
 return 1; 

@@ -8,7 +8,7 @@
 
 #include "Prime_factors_header.h"
 
-
+#define BL 30                     //Buffer length
 
 /************************************************************************************************************/
 
@@ -18,7 +18,7 @@
 
 int main (void)  
   { 
-    char num_string[12];
+    char num_string[BL + 2];
     long  number;
     long factor;
     char factor_counter;
@@ -28,13 +28,17 @@ int main (void)
    if (reset_status == 1) User_prompt;                            //Only required for a POR
  
    Serial.write("\r\nInteger number\t");
-   number = Int_Num_from_PC(num_string, '\r');
-  
+   number = Int_Num_from_PC_A(num_string, BL);
+
+newline_A;
+  Serial.print(number);
+  Serial.write('\t');
+
   factor_counter = 0;
   do{
   factor = Product_search(number);                                 //Get lowest factor
   number = number/factor;                                          //Next number to factorise
-  Int_Num_to_PC(factor,num_string, '\t' );
+  Int_Num_to_PC_A(factor,num_string, '\t' );
   factor_counter += 1;} 
   while (number != 1);  
 

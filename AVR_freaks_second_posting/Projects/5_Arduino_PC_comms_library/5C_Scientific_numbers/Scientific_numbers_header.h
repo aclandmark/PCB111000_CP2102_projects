@@ -7,7 +7,7 @@
 char User_response;
 char reset_status;
 
-#define newline   Serial.write("\r\n");
+#define newline_A   Serial.write("\r\n");
 
 
 /**********************************************************************************/
@@ -130,7 +130,7 @@ if(reset_status == 6)\
 {while(1){\
 do{Serial.write("R?    ");}   while((isCharavailable_A(75) == 0));\
 User_response = Serial.read();\
-if((User_response == 'R') || (User_response == 'r'))break;} newline;}
+if((User_response == 'R') || (User_response == 'r'))break;} newline_A;}
 
 
 

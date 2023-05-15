@@ -19,33 +19,49 @@ real number followed by the exponent.
 
 #include "Scientific_numbers_header.h"
 
+
+#define Buff_Length 30                     //Buffer length
+
+
 /************************************************************************************************************/
 
 
 
 int main (void)  
   { 
-    char num_string[12];
-    float  num;
+    char num_string[Buff_Length + 2];
+    float  num_1, num_2;
     float index;
  
  setup_328_HW_Arduino_IO;
     
-   if (reset_status == 1) User_prompt;
+   if ((reset_status == 1) || (reset_status == 2))User_prompt;
  
    Serial.write("\r\nScientific number\r\n");
    
-num = Sc_Num_from_PC_local(num_string, '\r');
+num_1 = Sc_Num_from_PC_A_Local(num_string, Buff_Length);
+newline_A;
+  Sc_Num_to_PC_A_Local(num_1,2,6,'\r');
 
-if (num < 1.0) index = 3;                                   //Raise small numbers and negative ones to the power of 3
-else index = 1.5;                                           //Raise remaining numbers to the power of 1.5
+if (num_1 < 0.0) index = 3;                                   //Raise negative numbers to the power of 3
+else {
+  if((num_1 > 1.0e-10) && (num_1 < 1.0e10))index = 1.5;
+  else index = 0.75;}
 
 while(1){
-  while(!(Serial.available()))wdr();
+while(!(Serial.available()))wdr();
 Serial.read();                                            //The equivalent of waitforkeypress()
-num = pow (num,index);                                    //-C- library function
-Sc_Num_to_PC_local(num, 2, 4, '\r');
-}
+
+//for(int m = 0; m < 2; m++){_delay_ms(50);wdr();}
+
+num_2 = pow (num_1,index);                                    //-C- library function
+Sc_Num_to_PC_A_Local(num_2, 2, 4, '\r');
+
+if ((index < 0.0) || (index > 1.0));
+else 
+if (((num_2 > 1.0)&&(((num_1 - num_2) < 1.0))) ||
+((num_2 < 1.0)&&(((num_2 - num_1) > 1.0e-1))))break;
+num_1 = num_2;}
 
  SW_reset;
   return 1;
@@ -55,7 +71,7 @@ Sc_Num_to_PC_local(num, 2, 4, '\r');
 
 
 /*****************************************************************************************/
-void Sc_Num_to_PC_local(float num, char pre_dp, char post_dp, char next_char)
+void Sc_Num_to_PC_A_Local(float num, char pre_dp, char post_dp, char next_char)
 {int A = 1;
 char keypresses[12];
 char sign = '+';
@@ -84,7 +100,7 @@ Serial.write(next_char);}
 
 
 /******************************************************************************************/
-float Sc_Num_from_PC_local(char * num_as_string,char next_char)
+float Sc_Num_from_PC_A_Local(char * num_as_string, int BL)
 {char strln;                                                          //Length of a string of characters
 
 pause_WDT;                                                            //Allow time for number to be entered at the keyboard
@@ -93,7 +109,6 @@ strln = Serial.readBytesUntil('\r',num_as_string, 20);                //Read upt
 resume_WDT;
 num_as_string[strln] = 0;                                             //Terminate the string with the null character
 Serial.write(num_as_string);                                          //Print out the numerical string
-Serial.write(next_char);                                              //new-line, space, \t or other specified character
 return atof(num_as_string);}                                          //"askii to float" -C- library function
 
 

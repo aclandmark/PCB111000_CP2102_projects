@@ -40,19 +40,6 @@ return (unsigned int )num;}
 
 
 /******************************************************************************************/
-long Int_Num_from_PC_A_OLD(char * num_as_string,char next_char)		//Same as Unsigned_Int_from_PC()
-{char strln;
-
-pause_WDT;
-Serial.flush();   
-strln = Serial.readBytesUntil('\r',num_as_string, 20);
-resume_WDT;
-num_as_string[strln] = 0;
-Serial.write(num_as_string);
-Serial.write(next_char);
-return atol(num_as_string);}
-
-
 long Int_Num_from_PC_A(char * num_as_string, char bufferlen)
 {int strln;
 int trailing_bs_counter = 0;
@@ -74,7 +61,9 @@ for(int m = 0; m < strln; m++){
  
 //Remove remainingdel chars*********************************************************************************************
  if(num_as_string[m] != '\b');
-  else for(int p = m; p < strln-1; p++){num_as_string[p-1] = num_as_string[p+1]; num_as_string[p+1] = '\0';m = 0;} }
+ // else for(int p = m; p < strln-1; p++){num_as_string[p-1] = num_as_string[p+1]; num_as_string[p+1] = '\0';m = 0;} }
+else for(int p = m; p < strln-1; p++){num_as_string[p-1] = num_as_string[p+1]; num_as_string[p+1] = 0;num_as_string[p] = 0;m = 0;} } 
+
 
 num_as_string[strln] = 0;
 if(atol(num_as_string) > 0x7FFFF)
@@ -151,6 +140,7 @@ return atof(num_as_string);}									//Askii to float
 
 
 
+
 float Sc_Num_from_PC_A
 (char * num_as_string, int bufferlen )	
 {char strln;
@@ -174,10 +164,14 @@ for(int m = 0; m < strln; m++){
  
 //Remove remaining del chars*********************************************************************************************
  if(num_as_string[m] != '\b');
-  else for(int p = m; p < strln-1; p++){num_as_string[p-1] = num_as_string[p+1]; num_as_string[p+1] = '\0';m = 0;} }
+  //else for(int p = m; p < strln-1; p++){num_as_string[p-1] = num_as_string[p+1]; num_as_string[p+1] = '\0';m = 0;} }
+  else for(int p = m; p < strln-1; p++){num_as_string[p-1] = num_as_string[p+1]; num_as_string[p+1] = 0;num_as_string[p] = 0;m = 0;} } 
+
 
 num_as_string[strln] = 0;
 return atof(num_as_string);}												//Askii to float
+
+
 
 
 

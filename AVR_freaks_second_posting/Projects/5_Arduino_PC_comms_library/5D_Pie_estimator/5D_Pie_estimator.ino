@@ -33,8 +33,8 @@ Serial.write("\r\nEstimate value for PIE. Enter radius (50000 max)\r\n?\t");}
 else Serial.write("?\t");
 
 
-R = Unsigned_Int_from_PC(Num_string, 0);                              //DIY subroutine uses Arduino functions
-Unsigned_Int_to_PC(R, Num_string, '\t');                             //DIY subroutine uses Arduino functions
+R = Unsigned_Int_from_PC_A(Num_string, 0);                              //DIY subroutine uses Arduino functions
+Unsigned_Int_to_PC_A(R, Num_string, '\t');                             //DIY subroutine uses Arduino functions
 Y = 1;
 Area = 0;
 

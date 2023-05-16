@@ -125,22 +125,6 @@ Serial.write(next_char);}
 
 
 /******************************************************************************************/
-float Sc_Num_from_PC_A_OLD
-(char * num_as_string,char next_char)							//Same as Int_Num_from_PC()
-{char strln;
-
-pause_WDT;
-Serial.flush();   
-strln = Serial.readBytesUntil('\r',num_as_string, 20);
-resume_WDT;
-num_as_string[strln] = 0;
-Serial.write(num_as_string);
-Serial.write(next_char);
-return atof(num_as_string);}									//Askii to float
-
-
-
-
 float Sc_Num_from_PC_A
 (char * num_as_string, int bufferlen )	
 {char strln;

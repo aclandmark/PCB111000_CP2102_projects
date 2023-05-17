@@ -111,9 +111,10 @@ Check_num_for_to_big_or_small(num);								//Exit before attempting to do arithm
 
 if (num < 0){sign = '-'; num = num * (-1);}						//Only process positive numbers
 
+if(pre_dp){
 while(--pre_dp){A = A*10;}										//Convert FPN to Scientific format (real + exponent)
 while (num >= A){num = num/10.0; Exp += 1;}
-while (num <= A){num = num*10.0; Exp -= 1;}
+while (num <= A){num = num*10.0; Exp -= 1;}}
 
 if(sign == '-')num = num * (-1);								//Restore sign
 

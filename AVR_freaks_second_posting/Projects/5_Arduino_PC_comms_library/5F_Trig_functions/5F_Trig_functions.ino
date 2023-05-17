@@ -20,10 +20,13 @@ float Sine, Cos;                                       //The log of Num
 float Result;
 char  Fn;
 
-setup_HW_Arduino_IO;
+setup_328_HW_Arduino_IO;
 
-if(!(watch_dog_reset))Serial.write(message_1);
-else {watch_dog_reset = 0; Serial.write ("?\r\n");}
+if(reset_status == 2)Serial.write("?\r\n");
+if(reset_status == 3)Serial.write(message_1);
+
+
+
 Num = Sc_Num_from_PC_A(Num_string, BL);           //User enters the scientific number
 if(!(Num))Num = 0.0001;
 else{
@@ -40,7 +43,7 @@ case 't': Result = Sine_power_series(Num)/Cos_power_series(Num);Serial.write("Ta
 
 Sc_Num_to_PC_A(Result,1,8,'\r');
 
-I2C_FPN_to_display(Result);
+float_num_to_display(Result);
 
 SW_reset;
 return 1; 

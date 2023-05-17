@@ -3,6 +3,7 @@
 
 #include <avr/wdt.h>
 
+
 char User_response;
 char reset_status;
 
@@ -135,10 +136,12 @@ if(reset_status == 6)\
 
 
 /************************************************************************************************************************************/
-#include "Resources_e_power_series\Chip2chip_comms\One_wire_header.h"
-#include "Resources_e_power_series\Chip2chip_comms\One_wire_transactions.c"
-#include "Resources_e_power_series\PC_comms\Basic_Rx_Tx_and_Timer.c"
-#include "Resources_e_power_series\PC_comms\Arduino_Rx_Tx.c"
+#include "Resources_trig_functions\Chip2chip_comms\One_wire_header.h"
+#include "Resources_trig_functions\Chip2chip_comms\One_wire_transactions.c"
+#include "Resources_trig_functions\PC_comms\Basic_Rx_Tx_and_Timer.c"
+#include "Resources_trig_functions\PC_comms\Arduino_Rx_Tx.c"
+#include "Resources_trig_functions\Chip2chip_comms\Display_driver.c"
+
 
 
 

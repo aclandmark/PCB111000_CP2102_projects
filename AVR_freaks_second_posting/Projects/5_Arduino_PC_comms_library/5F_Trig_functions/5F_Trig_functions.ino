@@ -25,23 +25,25 @@ setup_328_HW_Arduino_IO;
 if(reset_status == 2)Serial.write("?\r\n");
 if(reset_status == 3)Serial.write(message_1);
 
-
-
 Num = Sc_Num_from_PC_A(Num_string, BL);           //User enters the scientific number
-if(!(Num))Num = 0.0001;
-else{
-Num = Num *2.0 * Pie /360.0;}
-Sc_Num_to_PC_A(Num, 1,5,'\r');
+if(!(Num))Num = 0.0057;
 
+Sc_Num_to_PC_A(Num,2,1, ' ');    //0.0057
+Serial.write("degrees = ");
+
+Num = Num *2.0 * Pie /360.0;
+Sc_Num_to_PC_A(Num, 1,3,' ');
+Serial.write("radians\r\n");
 Serial.write("Keypress c, s or t?\r\n");
 Fn = waitforkeypress_A();
 
 switch (Fn){
-case 'c': Result = Cos_power_series(Num); Serial.write("Cos x =");break;
-case 's': Result = Sine_power_series(Num);Serial.write("Sin x =");break;
-case 't': Result = Sine_power_series(Num)/Cos_power_series(Num);Serial.write("Tan x =");break;}
+case 'c': Result = Cos_power_series(Num); Serial.write("Cos = ");break;
+case 's': Result = Sine_power_series(Num);Serial.write("Sin = ");break;
+case 't': Result = Sine_power_series(Num)/Cos_power_series(Num);Serial.write("Tan = ");break;}
 
-Sc_Num_to_PC_A(Result,1,8,'\r');
+if ((Result < 1.0) && (Result > -1.0))Sc_Num_to_PC_A(Result,0,6,'\r');
+else Sc_Num_to_PC_A(Result,1,5,'\r');
 
 float_num_to_display(Result);
 

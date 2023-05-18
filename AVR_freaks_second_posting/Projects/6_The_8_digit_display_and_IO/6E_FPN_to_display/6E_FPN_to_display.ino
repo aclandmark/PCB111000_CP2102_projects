@@ -30,7 +30,7 @@ if(Num_1 > 0.0)power = 1.5; else power = 3.0;
 
 while (1){
  
-Sc_Num_to_PC(Num_1,1,5 ,'\r');                            //Send number to PC
+Sc_Num_to_PC_A(Num_1,1,5 ,'\r');                            //Send number to PC
 waitforkeypress_A();
 Num_1 = pow(Num_1, power);                                  //Do some arithmetic
 float_num_to_display(Num_1);                              //Sends result to the display

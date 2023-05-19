@@ -21,37 +21,48 @@ Switch assignments:
 
 
 int main (void){
+  
+long Num_1;
+char digits[8];
+int counter = 0;
 
-long Long_num;
-int twos_exp;
-float FPN_1_num;
 
 setup_328_HW_Arduino_IO;
 
+Serial.write("\r\nDATA FROM I/O");
+Serial.write(message_1);
+
+while((switch_1_down) || (switch_2_down) ||(switch_3_down));        //wait for switch release
+
 Data_Entry_complete=0;
 clear_display;                    
-Long_num = Int_number_from_IO();
+Num_1 = Int_number_from_IO();
 
-FPN_1_num = (float)Long_num;
-if(FPN_1_num < 0){
+do{
+Serial.print(++counter); Serial.write('\t');
+Serial.print(Num_1); Serial.write("\r\n");
 
-for(int m = 0; m < 5; m++){_delay_ms(50); wdr();}
+Int_num_to_display(Num_1);                                           //Sends number to the display
+_delay_ms(100);
 
-FPN_1_num *= -1.0; 
-float_num_to_display(FPN_1_num);}
+while(switch_1_down)wdr();
+Num_1 = (Num_1 / 2) *3;} 
+while ((Num_1 < 99999999) && (Num_1 > -9999999));                   //Do some arithmetic
 
-if (FPN_1_num >= 1.0) 
-{twos_exp = 0; while (FPN_1_num >= 2.0) 
-{FPN_1_num = FPN_1_num/2.0; twos_exp += 1;}} 
-
-while(1){
 while(switch_1_up)wdr();
-float_num_to_display(FPN_1_num);
-while(switch_3_up)wdr();
-Int_num_to_display(twos_exp);
+
+Num_1 = (Num_1 / 3) *2; 
+
+do{Num_1 = (Num_1 / 3) *2;                                           //Do the arithmetic in reverse
+Serial.print(--counter); Serial.write('\t');
+Serial.print(Num_1); 
+Serial.write("\r\n");                                             
+Int_num_to_display(Num_1);
+_delay_ms(100);
+while(switch_1_down)wdr();}while (counter-1);
+
 while(switch_1_up)wdr();
-float_num_to_display(pow(2, twos_exp) * FPN_1_num);
-while(switch_3_up)wdr();}} 
+SW_reset;}
 
 
 

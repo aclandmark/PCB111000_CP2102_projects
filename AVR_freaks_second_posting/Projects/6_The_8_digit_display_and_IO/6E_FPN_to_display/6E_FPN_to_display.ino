@@ -59,7 +59,4 @@ Num_1 = pow(Num_1, power);  counter -= 1;                                //Do so
 _delay_ms(100);}
 while(counter+1);
 
-//Num_1 = pow(Num_1, power);                                  //Do some arithmetic
-//float_num_to_display(Num_1);                              //Sends result to the display
- 
 SW_reset;}

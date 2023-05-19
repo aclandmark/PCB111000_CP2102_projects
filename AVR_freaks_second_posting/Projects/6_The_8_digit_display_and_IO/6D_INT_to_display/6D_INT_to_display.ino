@@ -16,35 +16,58 @@ bit of DIY programming is required.
 
 
 int main (void){
-long Num_1;
+float Arith_mean;
+float Geom_mean;
+
 char digits[8];
-int counter = 0;
+int counter = 1;
+long num_from_KBD;
+
+
 
 setup_328_HW_Arduino_IO;
 
+if(reset_status == 2)Serial.write("\r\nAgain?\r\n");
+else
+Serial.write("\r\nRunning arithmetic & Geometric averages:\r\n\
+Enter positive numbers \r\n\
+& terminate with Return key.\r\n\
+To display interim reults press SW1 before -cr-.\r\n\
+Press sw1 twice to resume entering numbers.\r\n\
+Note: Zero entry is ignored.\r\n\
+Press SW3 to pause the display\r\n\
+Press reset to repeat.\r\n");                             //Acquires data from keyboard
 
-Serial.write("\r\nEnter positive number \
-& terminate with Return key.\r\n");
-Num_1 = Int_KBD_to_display(digits);                                  //Acquires data from keyboard
+num_from_KBD = Int_KBD_to_display_Local(digits);
+Arith_mean = (float)num_from_KBD;
+Geom_mean = Arith_mean;
 
-do{
-Serial.print(++counter); Serial.write('\t');
-Serial.print(Num_1); newline; 
+while(1){
 
-Int_num_to_display(Num_1);                                           //Sends number to the display
+while ((switch_1_down) || (switch_2_down) || (switch_3_down))wdr();
+if ((num_from_KBD = Int_KBD_to_display_Local(digits)))
 
-waitforkeypress_A();
+{Arith_mean = Arith_mean * (float)counter;
+Geom_mean = pow (Geom_mean, (float)counter);
 
-Num_1 = (Num_1 / 2) *3;} while (Num_1 < 66666666);                   //Do some arithmetic
 
-Num_1 = (Num_1 / 3) *2; 
+Arith_mean += (float)num_from_KBD;
+Geom_mean *= (float)num_from_KBD;
 
-do{Num_1 = (Num_1 / 3) *2;                                           //Do the arithmetic in reverse
-Serial.print(--counter); Serial.write('\t');
-Serial.print(Num_1); 
-newline;                                             
-Int_num_to_display(Num_1);
-waitforkeypress_A();}while (counter-1);
+counter += 1;
+Arith_mean = (Arith_mean) / (float)counter;
+if(Geom_mean < 0.0)Geom_mean *= -1;
+Geom_mean =  pow (Geom_mean , 1/(float)counter);}
+
+if(switch_1_down)while(switch_1_down)wdr(); else continue;
+
+float_num_to_display(Arith_mean); 
+while(switch_1_up)wdr();
+
+float_num_to_display(Geom_mean);
+while(switch_1_down)wdr();
+if (switch_3_down)break;}
+
 SW_reset;}
 
 

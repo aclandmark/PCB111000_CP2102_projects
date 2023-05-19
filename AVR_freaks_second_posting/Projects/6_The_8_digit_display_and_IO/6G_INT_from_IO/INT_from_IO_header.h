@@ -17,6 +17,16 @@ char S_reg_bkp;
 
 
 
+#define message_1 \
+"\r\n\
+Press sw1 to populate digits[0]\r\n\
+sw2 to shift display left\r\n\
+sw3 to enter the number\r\n\
+sw1 to pause the display \r\n\
+and restart the program.\r\n"
+
+
+
 /**********************************************************************************/
 #define  OSC_CAL \
 if ((eeprom_read_byte((uint8_t*)0x3FF) > 0x0F)\

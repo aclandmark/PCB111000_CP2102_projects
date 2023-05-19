@@ -25,40 +25,39 @@ Switch assignments:
 
 int main (void){
 
-float FPN_1_num;
-long ipart, Fnum_int;
-int twos_exp;
+float x1;
+  float power;
 
 setup_328_HW_Arduino_IO;
 
+if(reset_status == 2)Serial.write("\r\nAgain?\r\n");
+else
+{Serial.write("\r\nFPN from IO\r\n\
+Press: sw_1 to populate digit_0, sw2 to shift the display left\r\n\
+sw_3 to enter the number and sw1 to do some arithmetic.\r\n\
+Note: display flashes to indicate number has been entered.\r\n");}
+
+
+
 Data_Entry_complete=0;
 clear_display;                       
-FPN_1_num = FPN_number_from_IO();
+x1 = FPN_number_from_IO();
 
-Check_num_for_to_big_or_small(FPN_1_num);
+Check_num_for_to_big_or_small(x1);
+//x1 = fpn_from_IO();
+ if(x1 > 0.0)power = 1.2; else power = 3.0;
+ 
+while(1){
+Sc_Num_to_PC_A(x1,1,6 ,'\r');
+float_num_to_display(x1);
 
-if(FPN_1_num < 0){
-_delay_ms(250);
-FPN_1_num *= -1.0; 
-float_num_to_display(FPN_1_num);}
-
-
-if (FPN_1_num >= 1.0)                                           //Multiply or divide number by 2 until it
-{twos_exp = 0; while (FPN_1_num >= 2.0)                         //is between 1 and 2 and adjust its twos_exp 
-{FPN_1_num = FPN_1_num/2.0; twos_exp += 1;}}                    //so that its value remains unchanged 
-
-if (FPN_1_num < 1.0)
-{twos_exp = 0; while (FPN_1_num < 1.0)                          //Negative numbers not allowed
-{FPN_1_num = FPN_1_num*2.0; twos_exp -= 1;}}
-
-while(1){                                                       //Simple arithmetic
-while(switch_1_up)wdr();                                        //Use reset control switch to exit
-float_num_to_display(FPN_1_num);
-while(switch_3_up)wdr();
-Int_num_to_display(twos_exp);
 while(switch_1_up)wdr();
-float_num_to_display(pow(2, twos_exp) * FPN_1_num);
-while(switch_3_up)wdr();}} 
+
+x1 = pow(x1, power);                                //Do some arithmetic
+while(switch_1_down)wdr();}
+
+while(switch_1_up)wdr();
+SW_reset;}
 
 
 

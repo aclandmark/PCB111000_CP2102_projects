@@ -25,8 +25,8 @@ Switch assignments:
 
 int main (void){
 
-float x1;
-  float power;
+float x1, x2, result;
+   char op;
 
 setup_328_HW_Arduino_IO;
 
@@ -44,17 +44,45 @@ clear_display;
 x1 = FPN_number_from_IO();
 
 Check_num_for_to_big_or_small(x1);
-//x1 = fpn_from_IO();
- if(x1 > 0.0)power = 1.2; else power = 3.0;
- 
-while(1){
-Sc_Num_to_PC_A(x1,1,6 ,'\r');
+
+Sc_Num_to_PC_A(x1,1,6 ,' ');
 float_num_to_display(x1);
-
 while(switch_1_up)wdr();
+  
+while(1){
+op = 0;
+clear_display;
+//cli();
+//disable_PCI_on_sw1;
+while(switch_1_down)
+{op = op%8;
+One_wire_comms_any_segment('d', 7- op);
+op += 1;
+Timer_T2_10mS_delay_x_m(40);
+clear_display;}
 
-x1 = pow(x1, power);                                //Do some arithmetic
-while(switch_1_down)wdr();}
+if(op <= 5){//disable_PCI_on_sw3;
+x2 = FPN_number_from_IO();}
+
+sei();
+switch(op){
+case 1:result = x1+x2; Serial.write (" + ");  break;
+case 2:result = x1-x2; Serial.write (" - ");  break;
+case 3:result = x1*x2; Serial.write (" x "); break;
+case 4:result = x1/x2; Serial.write (" / ");  break;
+case 5:result = pow(x1,x2); Serial.write (" ^ ");  break;
+case 6:result = sin(x1 / 57.296); x2 = x1; Serial.write (" Sin ");  break; 
+case 7:result = cos(x1 / 57.296); x2 = x1; Serial.write (" Cos "); break;                                               //
+case 8:result = tan(x1 / 57.296); x2 = x1; Serial.write (" Tan "); break;}
+
+Sc_Num_to_PC_A(x2,1,6 ,' '); 
+
+Serial.write (" = "); Sc_Num_to_PC_A(result,1,6 ,' ');
+Serial.write ("\r\n");
+float_num_to_display(result);
+x1 = result;
+
+while(switch_1_up)wdr();}
 
 while(switch_1_up)wdr();
 SW_reset;}
@@ -76,6 +104,8 @@ Char_ptr = (char*)&Float_from_mini_OS;                            //Addresses FP
 
 set_up_PCI;
 enable_PCI_on_sw1_and_sw2;                                        //Required to scroll through the digits and shift the display left
+
+dp_control = 0;
 
 initialise_display;
 
@@ -105,7 +135,6 @@ char disp_bkp[8];
 if((switch_1_up) && (switch_2_up) && (switch_3_up))return;       //Take no action on switch release  
 if ((switch_2_down) && (switch_3_down))
 {while((switch_2_down) || (switch_3_down))wdr(); return;}        //Unwanted switch presses
-
 
 /****Program control jumps to here when data entry is complete****************************************************************/
 if(switch_3_down){                                              //SW3 is used to terminate data entry

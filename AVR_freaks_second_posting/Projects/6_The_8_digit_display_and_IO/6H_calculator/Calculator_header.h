@@ -149,6 +149,7 @@ if(reset_status == 6)\
 
 #define disable_PCI_on_sw3          PCMSK2 &= (~(1 << PCINT23));
 #define disable_PCI_on_sw1_and_sw2  PCMSK2 &= (~((1 << PCINT18) | (1 << PCINT21)));
+#define disable_PCI_on_sw1          PCMSK2 &= (~(1 << PCINT18));
 
 #define switch_1_up               (PIND & 0x04)
 #define switch_2_up               (PIND & 0x20)

@@ -77,6 +77,10 @@ Char_ptr = (char*)&Float_from_mini_OS;                            //Addresses FP
 set_up_PCI;
 enable_PCI_on_sw1_and_sw2;                                        //Required to scroll through the digits and shift the display left
 
+dp_control = 0;
+exp_control = 0;
+neg_sign = 0;
+
 initialise_display;
 
 do{

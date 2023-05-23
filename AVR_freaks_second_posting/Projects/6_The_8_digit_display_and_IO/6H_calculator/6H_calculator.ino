@@ -108,6 +108,7 @@ enable_PCI_on_sw1_and_sw2;                                        //Required to 
 dp_control = 0;
 exp_control = 0;
 neg_sign = 0;
+scroll_control=0;
 
 initialise_display;
 

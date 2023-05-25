@@ -29,9 +29,14 @@ if ((keypress = wait_for_return_key_A())  =='\r')break;        	//Detect return 
 if ((decimal_digit(keypress)) || (keypress == '\b')\
  || (keypress == '-'))
 
+//{if (keypress == '\b'){                         				//Backspace key
+//for (int n = 0; n <= 7; n++)
+//display_buffer[n] = display_buffer[n + 1];}
 {if (keypress == '\b'){                         				//Backspace key
-for (int n = 0; n <= 7; n++)
-display_buffer[n] = display_buffer[n + 1];}
+for (int n = 0; n < 7; n++)
+display_buffer[n] = display_buffer[n + 1];
+display_buffer[7] = 0;}
+
 else
 {for(int n = 8; n>=1; n--)                                    	//Shift display for each new keypress
 display_buffer[n] = display_buffer[n-1];
@@ -84,8 +89,11 @@ if ((decimal_digit(keypress)) || (keypress == '.')				//Check for valid keypress
 || (keypress == '\b')|| (keypress == '-')
 || (keypress == 'E') || (keypress == 'e'))
 
-{if(keypress == '\b'){for (int n = 0; n <= 7; n++)				//Backspace keypress
-display_buffer[n] = display_buffer[n + 1];}
+//{if(keypress == '\b'){for (int n = 0; n <= 7; n++)				//Backspace keypress
+//display_buffer[n] = display_buffer[n + 1];}
+{if(keypress == '\b'){for (int n = 0; n < 7; n++)				//Backspace keypress
+display_buffer[n] = display_buffer[n + 1];
+display_buffer[7] = 0;}
 
 else
 

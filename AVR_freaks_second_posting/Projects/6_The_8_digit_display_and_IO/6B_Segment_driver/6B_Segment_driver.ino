@@ -17,7 +17,9 @@ char keypress = 0, digit_num=0;
 
 setup_328_HW_Arduino_IO;
 
-if(reset_status == 3)Serial.write(message_1);
+
+
+if(reset_status == 3){clear_display;Serial.write(message_1);}
 if(reset_status == 2)Serial.write(message_2);
 
 while(1){                                                               //Keep inputting data until x is received

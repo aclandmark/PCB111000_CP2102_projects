@@ -32,16 +32,22 @@ int main (void)
     char num_string[Buff_Length + 2];
     float  num_1, num_2;
     float index;
+    char pre_dp;
  
  setup_328_HW_Arduino_IO;
     
    if ((reset_status == 1) || (reset_status == 2))User_prompt;
  
-   Serial.write("\r\nScientific number\r\n");
+   Serial.write("\r\nEnter scientific number\r\nthen the number of digits before the decimal point.\r\n");
    
 num_1 = Sc_Num_from_PC_A_Local(num_string, Buff_Length);
+
+while(1){pre_dp = waitforkeypress_A();
+if ((pre_dp < '0')||(pre_dp > '9'))Serial.write("!");
+else break;}
+pre_dp -= '0';
 newline_A;
-  Sc_Num_to_PC_A_Local(num_1,2,6,'\r');
+Sc_Num_to_PC_A_Local(num_1,pre_dp,6,'\r');
 
 if (num_1 < 0.0) index = 3;                                   //Raise negative numbers to the power of 3
 else {
@@ -52,10 +58,8 @@ while(1){
 while(!(Serial.available()))wdr();
 Serial.read();                                            //The equivalent of waitforkeypress()
 
-//for(int m = 0; m < 2; m++){_delay_ms(50);wdr();}
-
 num_2 = pow (num_1,index);                                    //-C- library function
-Sc_Num_to_PC_A_Local(num_2, 2, 4, '\r');
+Sc_Num_to_PC_A_Local(num_2, pre_dp, 6, '\r');
 
 if ((index < 0.0) || (index > 1.0));
 else 
@@ -64,8 +68,7 @@ if (((num_2 > 1.0)&&(((num_1 - num_2) < 1.0))) ||
 num_1 = num_2;}
 
  SW_reset;
-  return 1;
-  }
+  return 1;}
 
 
 
@@ -81,9 +84,10 @@ Check_num_for_to_big_or_small(num);                       //SW_reset required to
 
 if (num < 0){sign = '-'; num = num * (-1);}
 
-while(--pre_dp){A = A*10;} 
-while (num >= A){num = num/10.0; Exp += 1;}               //Repetitively divide large numbers by 10
-while (num <= A){num = num*10.0; Exp -= 1;}               //and multiply small ones by 10
+if(pre_dp){
+while(pre_dp--)A = A*10;}
+if (num >= 1.0)while (num >= A){num = num/10.0; Exp += 1;}
+else {while (num*10.0 < A){num = num*10.0; Exp -= 1;}}
 
 if(sign == '-')num = num * (-1);
 

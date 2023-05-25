@@ -100,7 +100,7 @@ Serial.print(num_as_string);Serial.print(next_char);
 
 
 /*****************************************************************************************/
-void Sc_Num_to_PC_A_Local(float num, char pre_dp, char post_dp, char next_char)
+void Sc_Num_to_PC_A(float num, char pre_dp, char post_dp, char next_char)
 {int A = 1;
 char sign = '+';
 int Exp = 0;

@@ -100,28 +100,25 @@ Serial.print(num_as_string);Serial.print(next_char);
 
 
 /*****************************************************************************************/
-void Sc_Num_to_PC_A
-(float num, char pre_dp, char post_dp, char next_char)
+void Sc_Num_to_PC_A_Local(float num, char pre_dp, char post_dp, char next_char)
 {int A = 1;
-//char keypresses[12];
 char sign = '+';
 int Exp = 0;
 
-Check_num_for_to_big_or_small(num);								//Exit before attempting to do arithmetic with these numbers
+Check_num_for_to_big_or_small(num);                       //SW_reset required to escape from infinity and zero      
 
-if (num < 0){sign = '-'; num = num * (-1);}						//Only process positive numbers
+if (num < 0){sign = '-'; num = num * (-1);}
 
 if(pre_dp){
-while(--pre_dp){A = A*10;}										//Convert FPN to Scientific format (real + exponent)
-while (num >= A){num = num/10.0; Exp += 1;}
-while (num <= A){num = num*10.0; Exp -= 1;}}
+while(pre_dp--)A = A*10;}
+if (num >= 1.0)while (num >= A){num = num/10.0; Exp += 1;}
+else {while (num*10.0 < A){num = num*10.0; Exp -= 1;}}
 
-if(sign == '-')num = num * (-1);								//Restore sign
+if(sign == '-')num = num * (-1);
 
-Serial.print(num, post_dp);										//Print the real number followed by the exponent
+Serial.print(num, post_dp);
 if(Exp) {Serial.write ('E'); Serial.print(Exp);}
 Serial.write(next_char);}
-
 
 
 

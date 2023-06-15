@@ -108,6 +108,7 @@ setup_watchdog; SW_reset;}
 /*******************************************************************************************************************/
 ISR(PCINT2_vect){
   int data;
+  //long Num_1_as_long,Num_2_as_long ;
   if (switch_1_up)return;
   sei();
   disable_PCI_on_sw1;
@@ -116,8 +117,13 @@ ISR(PCINT2_vect){
 
 if((switch_2_down) && (switch_3_down)){                                 //Do some arithmetic
 Num_1 = float_from_EEPROM(0x5);
+//Num_1_as_long = *(long*)&Num_1;
 Num_2 = pow(Num_1, 1.2);
-if(Num_2 == Num_1)while(1);                                             //Zero or infinity: Force timeout
+//Num_2_as_long = *(long*)&Num_2;
+
+//if(Num_2_as_long == Num_1_as_long){while(1);  }                                           //Zero or infinity: Force timeout
+if(Num_2 == Num_1){while(1);  }
+
 
 float_num_to_display_WDT(Num_2);
 float_to_EEPROM (Num_2, 0x5);
@@ -155,7 +161,6 @@ ISR(TIMER1_OVF_vect) {TIMSK1 &= (~(1 << TOIE1)); enable_PCI_on_sw1;}
 
 ISR (WDT_vect){
   Signal_WDTout_with_interrupt;}
-
 
 
 

@@ -133,7 +133,7 @@ return;}
 
 
 data = PCI_triggers_data_from_PC(digits);
-if(!(data)){Timer_T1_sub_with_interrupt(T1_delay_250ms);return;} 
+if((!(data - '0')) || (!(data))){Timer_T1_sub_with_interrupt(T1_delay_250ms);return;} 
 
 if((switch_2_up) && (switch_3_up)){                                     //Set duty cycle
 if(data > 9)data = data%10 + 1;

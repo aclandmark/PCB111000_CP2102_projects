@@ -30,7 +30,7 @@ int num_harmonics;
 int Harmon_2, Harmon_4, Harmon_6, Harmon_8, Harmon_10;
 int Harmon_2_offset, Harmon_4_offset, Harmon_6_offset, Harmon_8_offset, Harmon_10_offset;
 
-unsigned char test;
+//unsigned char test;
 
 setup_328_HW_Arduino_IO;
 
@@ -70,7 +70,7 @@ if (p==10){Harmon_10 =  - (int)(sin(2.0 * pi * Time * 10.0)/10.0 * 80.0);
          
 if(!(p%2)){amplitude -= int(sin(2.0 * pi * Time * (float) p) / (float) p * 80.0);}}
 
-test = eeprom_read_byte((uint8_t*)(0x0));
+//test = eeprom_read_byte((uint8_t*)(0x0));
 
 switch (eeprom_read_byte((uint8_t*)(0x0))){
   case 0: Display_1(amplitude );break;
@@ -82,9 +82,9 @@ switch (eeprom_read_byte((uint8_t*)(0x0))){
   case 6: Display_1(Harmon_2 + Harmon_4 + Harmon_6 );break;
   case 7: Display_1(Harmon_2 + Harmon_4 + Harmon_6 + Harmon_8 );break;
   case 8: Display_1(Harmon_2 + Harmon_4 + Harmon_6 + Harmon_8 + Harmon_10 );break;
-  case 9: Display_2(amplitude, Harmon_2_offset + Harmon_4_offset + Harmon_6_offset + Harmon_8_offset + Harmon_10_offset );break;
+  case 9: Display_2(amplitude, Harmon_2_offset + Harmon_4_offset + Harmon_6_offset + Harmon_8_offset + Harmon_10_offset );break;}
 
-  default: Serial.print ((int)test);break;}
+  //default: Serial.print ((int)test);break;}
 
 _delay_ms(20);
 newline; wdr();}}
@@ -112,7 +112,7 @@ SW_reset;}
 
 
 /*******************************************************************************************************************/
-ISR(TIMER1_OVF_vect) {TIMSK1 &= (~(1 << TOIE1)); enable_PCI_on_sw1;Serial.write("test");}
+ISR(TIMER1_OVF_vect) {TIMSK1 &= (~(1 << TOIE1)); enable_PCI_on_sw1;Serial.write("!?");}
 
 
 

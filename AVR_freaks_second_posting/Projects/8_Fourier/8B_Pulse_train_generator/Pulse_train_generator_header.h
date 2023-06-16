@@ -190,7 +190,7 @@ break;}}
 #include "Resources_Pulse_train_generator\One_wire_transactions.c"
 #include "Resources_Pulse_train_generator\Basic_IO_and_Timer.c"
 #include "Resources_Pulse_train_generator\display_driver_subroutines_KBD.c"
-#include "Resources_Pulse_train_generator\Reset_project_subroutines.c"
+#include "Resources_Pulse_train_generator\Pulse_train_subroutines.c"
 //#include "Resources_Pulse_train_generator\Arduino_Rx_Tx.c"
 
 

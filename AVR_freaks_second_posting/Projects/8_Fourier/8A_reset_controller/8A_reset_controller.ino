@@ -59,7 +59,7 @@ SW_reset;}
 
 
 
-//ISR (WDT_vect){Signal_WDTout_with_interrupt;WDTout;}      //Optional
+ISR (WDT_vect){Signal_WDTout_with_interrupt;WDTout;}      //Optional
 
 
 void Char_to_PC_as_binary(unsigned char num){

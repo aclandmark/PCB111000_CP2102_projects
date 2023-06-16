@@ -34,34 +34,12 @@ sei();\
 Serial.begin(115200);\
 while (!Serial);\
 determine_reset_source;\
-Two_50ms_WDT_with_interrupt;\
+Five_hundred_ms_WDT_with_interrupt;\
 failsafe;
-
 
 
 //The reset control switch is connected to PC5
 
-
-
-/************************************************************************************************************************************/
-#define setup_328_HW_Basic_IO \
-\
-setup_watchdog;\
-ADMUX |= (1 << REFS0);\
-initialise_IO;\
-OSC_CAL;\
-\
-comms_cal;\
-set_up_pin_change_interrupt_on_PC5;\
-\
-setup_one_wire_comms;\
-set_up_activity_leds;\
-sei();\
-setup_PC_comms(0,16);\
-_delay_ms(10);\
-determine_reset_source;\
-Two_50ms_WDT_with_interrupt;\
-failsafe;
 
 
 /************************************************************************************************************************************/
@@ -86,6 +64,11 @@ WDTCSR = (1<< WDE) | (1 << WDIE) |  (1 << WDP0)  |  (1 << WDP1);
 wdr();\
 WDTCSR |= (1 <<WDCE) | (1<< WDE);\
 WDTCSR = (1<< WDE) | (1 << WDIE) |  (1 << WDP2);
+
+#define Five_hundred_ms_WDT_with_interrupt \
+wdr();\
+WDTCSR |= (1 <<WDCE) | (1<< WDE);\
+WDTCSR = (1<< WDE) | (1 << WDIE) |  (1 << WDP0) |  (1 << WDP2);
 
 /************************************************************************************************************************************/
 #define initialise_IO \

@@ -189,7 +189,7 @@ break;}}
 #include "Resources_Sawtooth_generator\One_wire_transactions.c"
 #include "Resources_Sawtooth_generator\Basic_IO_and_Timer.c"
 #include "Resources_Sawtooth_generator\display_driver_subroutines_KBD.c"
-#include "Resources_Sawtooth_generator\Reset_project_subroutines.c"
+#include "Resources_Sawtooth_generator\Sawtooth_subroutines.c"
 
 
 

@@ -45,7 +45,9 @@ case 4: Timer_T1_sub_with_interrupt(T1_delay_250ms);                    //Flagge
 for(int p = 0; p <10; p++)newline; break;
 
 case 5:Serial.write
-("\r\n\r\nNumerical result too large for a 32 bit number.\r\n");         //WDTout with interrupt
+("\r\n\r\nTimed out:\r\n\
+Numerical result too large for a 32 bit number.\r\n\
+or too may harmonics_time slots requested\r\n");                          //WDTout with interrupt
 case 2:                                                                  //SW_reset
 case 3:                                                                  //Post prtD
  eeprom_write_byte((uint8_t*)(0x0),1);                                   //1 to 9 gives mark space ratio
@@ -108,7 +110,6 @@ setup_watchdog; SW_reset;}
 /*******************************************************************************************************************/
 ISR(PCINT2_vect){
   int data;
-  //long Num_1_as_long,Num_2_as_long ;
   if (switch_1_up)return;
   sei();
   disable_PCI_on_sw1;
@@ -117,13 +118,8 @@ ISR(PCINT2_vect){
 
 if((switch_2_down) && (switch_3_down)){                                 //Do some arithmetic
 Num_1 = float_from_EEPROM(0x5);
-//Num_1_as_long = *(long*)&Num_1;
 Num_2 = pow(Num_1, 1.2);
-//Num_2_as_long = *(long*)&Num_2;
-
-//if(Num_2_as_long == Num_1_as_long){while(1);  }                                           //Zero or infinity: Force timeout
 if(Num_2 == Num_1){while(1);  }
-
 
 float_num_to_display_WDT(Num_2);
 float_to_EEPROM (Num_2, 0x5);

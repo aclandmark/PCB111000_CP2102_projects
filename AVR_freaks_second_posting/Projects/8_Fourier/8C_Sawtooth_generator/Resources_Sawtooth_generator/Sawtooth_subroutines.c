@@ -45,6 +45,7 @@ num =  * Flt_ptr_local;
 return num;}
 
 
+
 /*******************************************************************************************************************/
 void Timer_T1_sub_with_interrupt(char Counter_speed, unsigned int Start_point){ 
 TIMSK1 |= (1 << TOIE1);
@@ -54,24 +55,7 @@ TCCR1B = Counter_speed;}
 
 
 
-
 /*******************************************************************************************************************/
-/*int PCI_triggers_data_from_PC(char * num_as_string)	
-{int m= 0;
-for(int m = 0; m <= 7; m++)num_as_string[m] = 0;
-while(1){if (Serial.available()) num_as_string[m++] = Serial.read(); else break;}
-if (!(m))return '0';
-return atoi(num_as_string);}*/
-
-
-/*int PCI_triggers_data_from_PC(char * num_as_string)  
-{int m= 0;
-while(1){if (Serial.available()) num_as_string[m++] = Serial.read(); else break;}
-num_as_string[m] = '\0';
-if (!(m))return 0;
-return atoi(num_as_string);}*/
-
-
 int PCI_triggers_data_from_PC(char * num_as_string)  
 {int m= 0;
 while(1){if (Serial.available()) {num_as_string[m] = Serial.read(); 

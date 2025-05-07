@@ -46,6 +46,14 @@ One_wire_Tx_char = digit_num;	UART_Tx_1_wire(); wdr();
 reinstate_pin_change_interrupt_on_PC5;}
 
 
+void One_wire_comms_any_segment_clear_all(void){				//New subroutine
+pause_pin_change_interrupt_on_PC5;	
+One_wire_Tx_char = 'c';			UART_Tx_1_wire(); wdr();
+reinstate_pin_change_interrupt_on_PC5;}
+
+
+
+
 
 /******************************************************************************************************************************************/
 void float_num_to_display(float FP_num){

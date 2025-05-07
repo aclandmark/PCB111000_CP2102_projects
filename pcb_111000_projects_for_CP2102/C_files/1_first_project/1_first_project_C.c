@@ -1,5 +1,5 @@
 
-int main (void)           						//Example 7
+int main (void)                       //Example 7
   { unsigned int PORT_1, PORT_2;
 
  setup_328_HW;
@@ -9,7 +9,7 @@ int main (void)           						//Example 7
     for (int m = 0; m <= 7; m++)
     { One_wire_Tx_2_integers(PORT_1 | PORT_2,
       (PORT_1 << 8)  | (PORT_2 >> 8));
-      SW_Delay(60);
+      SW_Delay_ms(60);
       PORT_1 = PORT_1 << 1;
       PORT_2 = PORT_2 >> 1;
     }}  return 1;} 

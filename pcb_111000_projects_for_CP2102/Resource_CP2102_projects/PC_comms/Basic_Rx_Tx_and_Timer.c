@@ -49,6 +49,12 @@ char wait_for_return_key_A(void);
 void Check_num_for_to_big_or_small(float);
 
 
+void SW_Delay_ms(int x){_delay_ms(x/2);}
+
+void SW_Delay_us(int x){_delay_us(x/2);}
+
+
+
 
 /**********************************************************************************************************************************************************************************/
 void setup_PC_comms_Basic (unsigned char UBRROH_N, unsigned char UBRR0L_N ){

@@ -136,10 +136,10 @@ Note : Set bit 2 to generate the prtD... prompt
 /************************************************************************************************************************************/
 #define failsafe \
 if(reset_status == 7)\
-{Serial.write("\r\nProgram restarted.");}\
+{String_to_PC_Basic("\r\nProgram restarted.");}\
 if(reset_status == 6);
 
-//{Serial.write("\r\nWDTout\r\n");while(1)wdr();}
+//{String_to_PC_Basic("\r\nWDTout\r\n");while(1)wdr();}
 
 #define clear_display             One_wire_Tx_char = 'c';  UART_Tx_1_wire();
 #define set_up_PCI                PCICR |= (1 << PCIE2);

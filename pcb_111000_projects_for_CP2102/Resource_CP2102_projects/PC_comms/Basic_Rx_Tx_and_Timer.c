@@ -157,46 +157,40 @@ else return 1;}
 
 
 
-/**********************************************************************************************************************************************************************************
-char isCharavailable_A (int m){int n = 0;								//Version of isCharavailable_Basic() that uses the Arduino library
-while (!(Serial.available())){n++;	wdr();			
-if (n>8000) {m--;n = 0;}if (m == 0)return 0;}	
-return 1;}	
+/**********************************************************************************************************************************************************************************/
+void Hex_and_Int_to_PC_Basic (char radix, int number)
+{ int i = 0;
+ char sign = '+';
+  unsigned char s[12];
+unsigned int num;
+  
+if ((number < 0) && (radix == 10)){sign = '-'; number *= -1;}
+    num = (unsigned)number;  
+   
+   do  { s[i] = num % radix;// + '0';
+if (s[i] < 10)s[i] += '0'; else s[i] += '7';
+   i += 1;  }
+  while ((num = num / radix) > 0);
+  s[i] = '\0';
+  if ((sign == '-') && (radix == 10)){Char_to_PC_Basic('-');}
+  for (int m = i; m > 0; m--)Char_to_PC_Basic(s[m - 1]);
+  Char_to_PC_Basic(' ');}
 
 
 
-*********************************************************************************************************************************************************************************
-char waitforkeypress_A (void){											//Version of waitforkeypress_Basic() that uses the Arduino library
-while (!(Serial.available()))wdr();	
-return Serial.read(); }
 
-
-
-**********************************************************************************************************************************************************************************
-char wait_for_return_key_A(void){                  						//Returns key presses one at a time
-char keypress,temp;
-while(1){																//Remain in while loop until a character is received
-if (isCharavailable_A(8)){												//Pauses but returns 1 immediately that a character is received
-keypress = Serial.read();												//Skip if no character has been received 
-break;}}																//Exit while loop when character has been read
-if((keypress == '\r') || (keypress == '\n')){							//Detect \r\n, \r or \n and converts to \r
-if (isCharavailable_A(1)){temp = Serial.read();}
-keypress = '\r';}
-return keypress;}
-
-
-
-**********************************************************************************************************************************************************************************
-void Check_num_for_to_big_or_small(float num)											//Exits if the result of floating point arithmetic exceeds permitted limits 
-{unsigned long * long_ptr;
-long_ptr = (unsigned long *)&num;														//Enables floating point number to be read as a 32 bit integer 
-if (*long_ptr == 0x7F800000){Serial.write("+ve Num too large\r\n");SW_reset;}
-if (*long_ptr == 0xFF800000){Serial.write("-ve Num too large\r\n");SW_reset;}
-if (*long_ptr == 0X0){Serial.write("+ve Num too small\r\n");SW_reset;}
-if (*long_ptr == 0X80000000){Serial.write("-ve Num too small\r\n");SW_reset;}}
-
-****************************************************************************************************************************************************************************************/
-
+/**********************************************************************************************************************************************************************************/
+void Int_to_PC_Basic (long number)
+{ int i = 0;
+  char s[12];
+   do
+  { s[i++] = number % 10 + '0';
+  }
+  while ((number = number / 10) > 0);
+  s[i] = '\0';
+  for (int m = i; m > 0; m--)Char_to_PC_Basic(s[m - 1]);
+  Char_to_PC_Basic(' ');
+}
 
 
 

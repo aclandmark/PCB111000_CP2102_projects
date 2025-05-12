@@ -10,7 +10,7 @@ int main (void)                          //Example 7
   while (symbol <= '~')
   { Int_to_PC_Basic(symbol);
     Char_to_PC_Local(symbol++);
-    wdr();_delay_ms(50);
+    wdr(); SW_Delay_ms(50);
     if (!((symbol - '!') % 8))newline_Basic();
     else Char_to_PC_Local('\t');
   }

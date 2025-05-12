@@ -33,4 +33,17 @@ int main (void)          //Example 10
       char_store_pointer %= Array_size;}}
       
   UCSR0B |= (1<< TXEN0);
-  newline_Basic(); }
+  newline_Basic(); 
+  for(int m = 0; m <Array_size; m++){
+  if ((char_store[m] == '\r')||(char_store[m] == '\n'))
+      print_cntrl = 1; 
+  if ((m < char_store_pointer) && (print_cntrl == 1))
+      Char_to_PC_Basic(char_store[m]);}
+
+  newline_Basic();
+  String_to_PC_Basic("File size: ");
+  Int_to_PC_Basic (line_counter);
+  String_to_PC_Basic("  lines\r\n ");
+  
+  SW_reset;
+  return 1;}

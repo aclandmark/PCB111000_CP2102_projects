@@ -33,4 +33,4 @@ int main (void)          //Example 10
       char_store_pointer %= Array_size;}}
       
   UCSR0B |= (1<< TXEN0);
-  newline_Basic(); 
+  newline_Basic(); }

@@ -10,7 +10,7 @@ int main (void)
   String_to_PC_Basic("\r\n?");
   
   for(int m = 0; m <=2; m++)
-  {Num = Int_from_PC_Basic(Num_string);
+  {Num = Int_KBD_to_display(Num_string);
   switch (m)
   { case 0: A = Num; String_to_PC_Basic("\r\n?");break;
   case 1: B = Num; String_to_PC_Basic("\r\n?");break;

@@ -1,6 +1,5 @@
 
 
-
 int main (void)  
   { 
     char num_string[12];
@@ -12,7 +11,7 @@ int main (void)
 if(reset_status != 2)String_to_PC_Basic(message_1);
 else String_to_PC_Basic(message_2);
   
-num =  Int_from_PC_Basic(num_string);
+num =  Int_KBD_to_display(num_string);
 
 newline_Basic();
 Int_to_PC_Basic(num);

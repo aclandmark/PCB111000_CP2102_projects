@@ -34,4 +34,4 @@ if(num == old_num * 2)
 else Char_to_PC_Basic('?');
 }
 SW_reset;
-return 1;
+return 1;}

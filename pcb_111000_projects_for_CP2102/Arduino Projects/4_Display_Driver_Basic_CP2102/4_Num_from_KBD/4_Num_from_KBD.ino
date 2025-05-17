@@ -10,7 +10,7 @@ int main (void){
   
 setup_328_HW;
 if(reset_status == 2)String_to_PC_Basic("\r\nAgain"); else
-String_to_PC_Basic("Enter number at keyboard");
+String_to_PC_Basic("\r\nEnter number at keyboard then AK\r\n");
 num = Int_KBD_to_display_Local(num_string);
 waitforkeypress_Basic();
 while(num){

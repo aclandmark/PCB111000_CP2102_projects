@@ -6,6 +6,8 @@ char keypress = 0, digit_num=0;
 
 setup_328_HW;
 
+One_wire_comms_any_segment_clear_all();
+
 if(reset_status != 2)String_to_PC_Basic(message_1);
 else String_to_PC_Basic(message_2);
 

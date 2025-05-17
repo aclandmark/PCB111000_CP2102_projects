@@ -14,11 +14,11 @@ else String_to_PC_Basic(message_2);
 while(1){digit_num=0;
 while(digit_num < 8){
 
-if(isCharavailable_Basic(1))      				//Wait up to 25mS for a key press.  In the absence of one
+if(isCharavailable_Basic(1))              //Wait up to 25mS for a key press.  In the absence of one
 {switch(letter = Char_from_PC_Basic())
-												//the program reverts back to "while(digit_num < 8){"
-{case 'a': case 'A':                			//otherwise it continues and updates the display
-case 'b': case 'B':                				 //Program execution is not put on hold awaiting a keypress
+                        //the program reverts back to "while(digit_num < 8){"
+{case 'a': case 'A':                      //otherwise it continues and updates the display
+case 'b': case 'B':                        //Program execution is not put on hold awaiting a keypress
 case 'c': case 'C':
 case 'd': case 'D':
 case 'e': case 'E':
@@ -30,4 +30,4 @@ case 'z': SW_reset;break;
 default: break;}}
 SW_Delay_ms(25);
 wdr();
-}}}
+}}}s

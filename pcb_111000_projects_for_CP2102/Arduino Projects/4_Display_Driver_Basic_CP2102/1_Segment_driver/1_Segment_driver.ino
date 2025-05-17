@@ -13,7 +13,7 @@ Press 'z' to clear the display.\r\n"
 #define message_2 "?\r\n"
 
 
-//Tpe main routine here
+//Type main routine here
 
 
 

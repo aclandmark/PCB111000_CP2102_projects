@@ -16,7 +16,7 @@ while(digit_num < 8){
 
 if(isCharavailable_Basic(1))              //Wait up to 25mS for a key press.  In the absence of one
 {switch(letter = Char_from_PC_Basic())
-                        //the program reverts back to "while(digit_num < 8){"
+											//the program reverts back to "while(digit_num < 8){"
 {case 'a': case 'A':                      //otherwise it continues and updates the display
 case 'b': case 'B':                        //Program execution is not put on hold awaiting a keypress
 case 'c': case 'C':

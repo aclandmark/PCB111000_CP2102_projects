@@ -20,6 +20,6 @@ int main (void)
 q += 1;
 newline_Basic();
 }while(repeats[n++]);
- cli();waitforkeypress_Basic();
+ UCSR0B &= (~(1 << RXCIE0)); waitforkeypress_Basic();
 newline_Basic();
 SW_reset;}

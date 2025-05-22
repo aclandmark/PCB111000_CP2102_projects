@@ -26,7 +26,7 @@ set_up_PCI;                                                            //Eamples
 enable_PCI_on_sw1_and_sw3                                              //Eamples 2 and 3 only
     sei();
    T1_clock_tick(clock_rate);
- initialise_display_Local();                                              //Examples 5 and 6 ONLY
+// initialise_display_Local();                                              //Examples 5 and 6 ONLY
 while(1);
    SW_reset;
     }

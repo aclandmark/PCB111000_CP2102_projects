@@ -5,7 +5,7 @@ long num_array[200], prime_num;
 char counter=9;
 char num_string[12];
  
-setup_HW;
+setup_328_HW;
 String_to_PC_Basic("Prime number array\r\n1  ");
 
 while(1){
@@ -20,10 +20,10 @@ Char_to_PC_Basic(' ');
 counter -= 1;
 if(!(counter)){counter = 10;}}}
 
-String_to_PC_Basic("\r\n\r\nZero or next array or AOK  ");
+String_to_PC_Basic("\r\n\r\nZero for next array or AOK  ");
 if(waitforkeypress_Basic()=='0')array_num += 1;
 else {String_to_PC_Basic("\t Array number?  ");
-  array_num=Int_from_PC_Basic( num_string);}
+  array_num=Int_KBD_to_display( num_string);}
 array_pointer=0;
 counter = 10;
 newline_Basic();}}

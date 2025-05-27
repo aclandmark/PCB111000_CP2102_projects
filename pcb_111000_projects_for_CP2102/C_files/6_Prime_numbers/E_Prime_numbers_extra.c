@@ -12,7 +12,7 @@ if(switch_3_down)
 {while (switch_3_down){start_1+=2; 
 Int_to_PC_Basic(start_1);                           //Hold sw_3 down to increment start point
 Char_to_PC_Basic(' ');
-Timer_T1_sub(T1_delay_1sec);}                               //for random number generator
+Timer_T1_sub_with_wdr(T1_delay_1sec);}                               //for random number generator
 newline_Basic(); 
 return;}
 }

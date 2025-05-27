@@ -21,9 +21,7 @@ return;}
 /***************************************************************************************************************************************************/
 void factors_to_display(int * factor, int m){
   
-  void factors_to_display(int * factor, int m){
-  
-  for(int n=0; n<m; n++){One_wire_comms_any_segment_clear_all();
+ for(int n=0; n<m; n++){One_wire_comms_any_segment_clear_all();
   Timer_T2_10mS_delay_x_m(10);
  Int_num_to_display(factor [n]);
   while (switch_2_up)wdr();

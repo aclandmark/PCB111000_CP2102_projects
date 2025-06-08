@@ -43,7 +43,8 @@ ISR(PCINT2_vect) {                                             //This ISR can in
     disable_pci_on_sw1; 
     stop_watch_mode = 2; 
  enable_pci_on_sw2;}
-}
+
+if(switch_3_down){while(switch_3_down)wdr();SW_reset;}}
   
   
   

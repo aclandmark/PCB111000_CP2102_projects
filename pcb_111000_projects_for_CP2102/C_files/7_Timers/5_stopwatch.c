@@ -7,7 +7,8 @@ setup_328_HW;
 initialise_T2_Local();
 
 Reset_ATtiny1606;
-while(switch_3_up)wdr();                                     //Start stop watch
+cli();while(switch_3_up)wdr();                                     //Start stop watch
+sei();
 
 stop_watch_mode = 0;                                         //Stop watch running continuously
 centi_sec_counter = 0;                                       //10mS precision

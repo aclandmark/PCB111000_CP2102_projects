@@ -3,10 +3,16 @@
 
 int main (void){
 
+  char digits[8];
+ 
 setup_328_HW;
+for (int m = 0; m <=7; m++)digits[m] = '0';
+  
 initialise_T2_Local();
 
 Reset_ATtiny1606;
+Display_time;
+
 cli();while(switch_3_up)wdr();                                     //Start stop watch
 sei();
 

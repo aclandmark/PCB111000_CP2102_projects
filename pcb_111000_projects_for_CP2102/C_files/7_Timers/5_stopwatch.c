@@ -14,7 +14,7 @@ Reset_ATtiny1606;
 Display_time;
 
 cli();while(switch_3_up)wdr();                                     //Start stop watch
-sei();
+while(switch_3_down)wdr(); sei();
 
 stop_watch_mode = 0;                                         //Stop watch running continuously
 centi_sec_counter = 0;                                       //10mS precision

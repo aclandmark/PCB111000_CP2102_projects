@@ -17,23 +17,5 @@
 
 #include "Project_0_header.h"
  
-    int main (void)   //Example 11
-{unsigned char next_LED;  //LEDs in rotation
-
-setup_HW_Basic;
-_delay_ms(100);
-next_LED = eeprom_read_byte((uint8_t*)(0x1FA))%3;
-
-switch(next_LED){
-case 0:LED_1_on;break;
-case 1:LED_2_on;break;
-case 2:LEDs_on; break;}
-
-if (switch_1_down)next_LED = 1;
-if (switch_2_down)next_LED = 2;
-if (switch_3_down)next_LED = 3;
-
-eeprom_write_byte((uint8_t*)(0x1FA), next_LED);
- _delay_ms(40);
-SW_reset;}
+    
   

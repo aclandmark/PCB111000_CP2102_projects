@@ -10,6 +10,11 @@ These subroutines are used to send binary data over the one wire bus which will 
 void Check_num_for_to_big_or_small(float);								//Prototype required by float_num_to_display()
 
 
+void Num_string_to_display(char *display_buffer, char cr_press){
+Int_num_string_to_display ;}
+
+
+
 
 /******************************************************************************************************************************************/
 void One_wire_Tx_2_integers

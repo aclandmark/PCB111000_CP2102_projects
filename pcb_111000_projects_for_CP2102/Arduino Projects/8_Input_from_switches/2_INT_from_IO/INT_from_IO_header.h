@@ -194,6 +194,18 @@ if((User_response == 'R') || (User_response == 'r'))break;} String_to_PC_Basic("
 
 
 /************************************************************************************************************************************/
+#define Ignore_Unwanted_pin_change_interrupts \
+if((switch_1_up) && (switch_2_up) && (switch_3_up))return;\
+if ((switch_2_down) && (switch_3_down))\
+{while((switch_2_down) || (switch_3_down))wdr(); return;}
+
+
+#define wait_for_switch_release \
+while((switch_1_down) || (switch_2_down) ||(switch_3_down));
+
+
+
+/************************************************************************************************************************************/
 #include "Resource_CP2102_projects\Chip2chip_comms\One_wire_header.h"
 #include "Resource_CP2102_projects\Chip2chip_comms\Display_driver_header.h"
 #include "Resource_CP2102_projects\Chip2chip_comms\One_wire_transactions_1.c"

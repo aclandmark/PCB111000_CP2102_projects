@@ -6,11 +6,6 @@ void Long_Hex_and_Int_to_PC_Basic (char, long);
 
 
 
-void Num_string_to_display (char * display_buffer, char cr_keypress )
- {Int_num_string_to_display; }							//See "Chip2chip_comms\Display_driver_header.h"
-
-
-
 /****************************************************************************************************************************************************/
 long Int_KBD_to_display(char digits[]){              	//Acquires an integer string from the keyboard and returns the binary equivalent
 char keypress;

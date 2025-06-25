@@ -180,6 +180,9 @@ if(reset_status == 6);
 #define switch_2_down             (PIND & 0x20)^0x20
 #define switch_3_down             (PIND & 0x80)^0x80
 
+#define wait_for_switch_release \
+while((switch_1_down) || (switch_2_down) ||(switch_3_down));
+
 
 
 /************************************************************************************************************************************/

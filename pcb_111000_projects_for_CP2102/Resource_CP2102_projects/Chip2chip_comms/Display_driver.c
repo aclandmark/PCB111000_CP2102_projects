@@ -7,7 +7,7 @@ These subroutines are used to send binary data over the one wire bus which will 
 
 
 
-void Check_num_for_to_big_or_small(float);								//Prototype required by float_num_to_display()
+void Check_num_for_to_big_or_small_A(float);								//Prototype required by float_num_to_display()
 
 
 
@@ -65,7 +65,7 @@ void float_num_to_display(float FP_num){
 char * Char_ptr;
 
 pause_pin_change_interrupt_on_PC5;
-Check_num_for_to_big_or_small(FP_num);
+Check_num_for_to_big_or_small_A(FP_num);
 Char_ptr = (char*)&FP_num;											//Pointer addresses the first 8 bits of the 32 bit FPN
 One_wire_Tx_char = 'D';                                       		//Command 'D' indicates that a floating point number will be sent
 UART_Tx_1_wire();

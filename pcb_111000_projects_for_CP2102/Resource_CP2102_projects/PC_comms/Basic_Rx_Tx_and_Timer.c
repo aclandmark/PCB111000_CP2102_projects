@@ -195,14 +195,14 @@ void Int_to_PC_Basic (long number)
 
 
 /*************************************************************************************************************************************************************************************/
-void Check_num_for_to_big_or_small(float num)											//Exits if the result of floating point arithmetic exceeds permitted limits 
+/*void Check_num_for_to_big_or_small(float num)											//Exits if the result of floating point arithmetic exceeds permitted limits 
 {unsigned long * long_ptr;
 long_ptr = (unsigned long *)&num;														//Enables floating point number to be read as a 32 bit integer 
 if (*long_ptr == 0x7F800000){String_to_PC_Basic("+ve Num too large\r\n");SW_reset;}
 if (*long_ptr == 0xFF800000){String_to_PC_Basic("-ve Num too large\r\n");SW_reset;}
 if (*long_ptr == 0X0){String_to_PC_Basic("+ve Num too small\r\n");SW_reset;}
 if (*long_ptr == 0X80000000){String_to_PC_Basic("-ve Num too small\r\n");SW_reset;}}
-
+*/
 
 
 

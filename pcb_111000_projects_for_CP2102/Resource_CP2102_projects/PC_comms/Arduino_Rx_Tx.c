@@ -13,8 +13,7 @@ Note however
 
 
 
-void Check_num_for_to_big_or_small(float);						//Prototype required by Sc_Num_to_PC()
-
+void Check_num_for_to_big_or_small_A(float);						//Prototype required by Sc_Num_to_PC()
 
 
 
@@ -105,7 +104,7 @@ void Sc_Num_to_PC_A(float num, char pre_dp, char post_dp, char next_char)
 char sign = '+';
 int Exp = 0;
 
-Check_num_for_to_big_or_small(num);                       //SW_reset required to escape from infinity and zero      
+Check_num_for_to_big_or_small_A(num);                       //SW_reset required to escape from infinity and zero      
 
 if (num < 0){sign = '-'; num = num * (-1);}
 
@@ -154,7 +153,14 @@ num_as_string[strln] = 0;
 return atof(num_as_string);}												//Askii to float
 
 
-
+/*********************************************************************************************************************************************************************/
+void Check_num_for_to_big_or_small_A(float num)											//Exits if the result of floating point arithmetic exceeds permitted limits 
+{unsigned long * long_ptr;
+long_ptr = (unsigned long *)&num;														//Enables floating point number to be read as a 32 bit integer 
+if (*long_ptr == 0x7F800000){Serial.write("+ve Num too large\r\n");SW_reset;}
+if (*long_ptr == 0xFF800000){Serial.write("-ve Num too large\r\n");SW_reset;}
+if (*long_ptr == 0X0){Serial.write("+ve Num too small\r\n");SW_reset;}
+if (*long_ptr == 0X80000000){Serial.write("-ve Num too small\r\n");SW_reset;}}
 
 
 

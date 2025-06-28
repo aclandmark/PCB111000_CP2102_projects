@@ -16,6 +16,12 @@ Note however
 void Check_num_for_to_big_or_small_A(float);						//Prototype required by Sc_Num_to_PC()
 
 
+char isCharavailable_A (int m){int n = 0;
+while (!(UCSR0A & (1 << RXC0)))											//Return 1 immediately that a character is received
+{n++; wdr();															//No character yet: Increment counter											
+if (n>8000) {m--;n = 0;}if (m == 0)return 0;}							//Counter overflows before a character has been received: return zero
+return 1;}
+
 
 /******************************************************************************************/
 unsigned long Unsigned_Int_from_PC_A

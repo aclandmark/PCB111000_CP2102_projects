@@ -35,7 +35,7 @@ if ((eeprom_read_byte((uint8_t*)0x3FF) > 0x0F)\
 
 
 /************************************************************************************************************************************/
-#define setup_328_HW \
+#define setup_328_HW_A \
 \
 setup_watchdog;\
 ADMUX |= (1 << REFS0);\
@@ -48,8 +48,10 @@ set_up_pin_change_interrupt_on_PC5;\
 setup_one_wire_comms;\
 set_up_activity_leds;\
 sei();\
-setup_PC_comms_Basic(0,16);\
+Serial.begin(115200);\
+while (!Serial);\
 determine_reset_source;\
+\
 failsafe;
 
 //determine_reset_source;\

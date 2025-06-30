@@ -36,16 +36,13 @@ void Timer_T2_10mS_delay_x_m(int);
 void Timer_T2_sub(char, unsigned char);
 
 char isCharavailable_Basic (int);
-char isCharavailable_A (int);
 char waitforkeypress_Basic(void);
-char waitforkeypress_A(void);
 
 char Char_from_PC_Basic(void);
 void String_to_PC_Basic(const char*);
 void Char_to_PC_Basic(char);
 
 char decimal_digit (char);
-char wait_for_return_key_A(void);
 void Check_num_for_to_big_or_small(float);
 
 

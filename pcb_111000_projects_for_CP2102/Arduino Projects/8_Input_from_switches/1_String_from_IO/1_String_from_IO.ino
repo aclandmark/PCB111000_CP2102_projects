@@ -7,6 +7,8 @@
 #define shift_digits_left_local \
 {for (int n = 0; n < 7; n++){display_buffer[7-n] = display_buffer[6-n];}}
 
+
+
 //Enter main routine here
 
 

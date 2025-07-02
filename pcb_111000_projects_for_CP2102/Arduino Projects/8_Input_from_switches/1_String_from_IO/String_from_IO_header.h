@@ -21,8 +21,8 @@ char S_reg_bkp;
 Press sw1 to populate digits[0]\r\n\
 sw2 to shift display left\r\n\
 sw3 to enter the number\r\n\
-sw1 to pause the display \r\n\
-and restart the program.\r\n"
+sw2 to pause the display \r\n\
+sw1 to restart the program.\r\n"
 
 
 
@@ -74,7 +74,8 @@ WDTCSR = 0;
 
 #define SW_reset {Signal_SW_reset;wdt_enable(WDTO_30MS);while(1);}
 #define WDTout {wdt_enable(WDTO_30MS);while(1);}                            //Included in WDT ISR
-
+#define pause_WDT   setup_watchdog
+#define resume_WDT  setup_watchdog
 
 #define One_25ms_WDT_with_interrupt \
 wdr();\
@@ -187,11 +188,11 @@ if(reset_status == 6);
 
 
 /************************************************************************************************************************************/
-#define User_prompt_Basic \
+#define User_prompt_A \
 while(1){\
-do{String_to_PC_Basic("R?    ");}  while((isCharavailable_Basic(50) == 0));\
-User_response = Char_from_PC_Basic();\
-if((User_response == 'R') || (User_response == 'r'))break;} String_to_PC_Basic("\r\n");
+do{Serial.write("R?    ");}  while((isCharavailable_A(50) == 0));\
+User_response = Serial.read();\
+if((User_response == 'R') || (User_response == 'r'))break;} Serial.write("\r\n");
 
 
 

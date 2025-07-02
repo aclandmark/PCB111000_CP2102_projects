@@ -175,11 +175,11 @@ if(reset_status == 6);
 
 
 /************************************************************************************************************************************/
-#define User_prompt_Basic \
+#define User_prompt_A \
 while(1){\
-do{String_to_PC_Basic("R?    ");}  while((isCharavailable_Basic(50) == 0));\
-User_response = Char_from_PC_Basic();\
-if((User_response == 'R') || (User_response == 'r'))break;} String_to_PC_Basic("\r\n");
+do{Serial.write("R?    ");}  while((isCharavailable_A(50) == 0));\
+User_response = Serial.read();\
+if((User_response == 'R') || (User_response == 'r'))break;} Serial.write("\r\n");
 
 
 
@@ -209,8 +209,7 @@ Note: display flashes to indicate number has been entered.\r\n"
 #include "Resource_CP2102_projects\Chip2chip_comms\One_wire_transactions_1.c"
 #include "Resource_CP2102_projects\Chip2chip_comms\Display_driver.c"
 #include "Resource_CP2102_projects\PC_comms\Basic_Rx_Tx_and_Timer.c"
-#include "Resource_CP2102_projects\IO_data_entry.c"
 #include "Resource_CP2102_projects\PC_comms\Arduino_Rx_Tx.c"
-
+#include "Resource_CP2102_projects\IO_data_entry.c"
 
 /************************************************************************************************************************************/

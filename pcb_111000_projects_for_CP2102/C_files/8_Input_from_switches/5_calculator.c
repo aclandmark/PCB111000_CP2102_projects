@@ -1,11 +1,9 @@
-
-
 int main (void){
   float x1, x2;
   float power;
 char op;
 
-  setup_328_HW;
+  setup_328_HW_A;
 
 if(reset_status != 2)
 {Serial.write(message_1);}

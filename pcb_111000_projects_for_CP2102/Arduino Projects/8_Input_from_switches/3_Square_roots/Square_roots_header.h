@@ -17,8 +17,8 @@ char S_reg_bkp;
 
 /************************************************************************************************************************************/
 #define message_1 "\r\nDATA FROM I/O\r\n\
-Press sw1 to populate digits[0]\r\nsw3 to shift display left\r\n\
-sw2 to enter the number\r\nsw1 to pause the program and restart the program.\r\n"
+Press sw1 to populate digits[0]\r\nsw2 to shift display left\r\n\
+sw3 to enter this number\r\nand a new one.\r\n"
 
 #define message_2 "\r\nEnter new number\r\n"
 
@@ -72,7 +72,8 @@ WDTCSR = 0;
 
 #define SW_reset {Signal_SW_reset;wdt_enable(WDTO_30MS);while(1);}
 #define WDTout {wdt_enable(WDTO_30MS);while(1);}                            //Included in WDT ISR
-
+#define pause_WDT   setup_watchdog
+#define resume_WDT  setup_watchdog
 
 #define One_25ms_WDT_with_interrupt \
 wdr();\
@@ -188,11 +189,11 @@ while((switch_1_down) || (switch_2_down) ||(switch_3_down));
 
 
 /************************************************************************************************************************************/
-#define User_prompt_Basic \
+#define User_prompt_A \
 while(1){\
-do{String_to_PC_Basic("R?    ");}  while((isCharavailable_Basic(50) == 0));\
-User_response = Char_from_PC_Basic();\
-if((User_response == 'R') || (User_response == 'r'))break;} String_to_PC_Basic("\r\n");
+do{Serial.write("R?    ");}  while((isCharavailable_A(50) == 0));\
+User_response = Serial.read();\
+if((User_response == 'R') || (User_response == 'r'))break;} Serial.write("\r\n");
 
 
 
@@ -202,6 +203,7 @@ if((User_response == 'R') || (User_response == 'r'))break;} String_to_PC_Basic("
 #include "Resource_CP2102_projects\Chip2chip_comms\One_wire_transactions_1.c"
 #include "Resource_CP2102_projects\Chip2chip_comms\Display_driver.c"
 #include "Resource_CP2102_projects\PC_comms\Basic_Rx_Tx_and_Timer.c"
+#include "Resource_CP2102_projects\PC_comms\Basic_Rx_Tx_Extra.c"
 #include "Resource_CP2102_projects\IO_data_entry.c"
 
 

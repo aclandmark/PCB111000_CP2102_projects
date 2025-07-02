@@ -1,5 +1,5 @@
 
-
+char decimal_digit_Basic (char);
 
 char Int_to_String_Basic (long number, char * s)
 { int i = 11;                                               //Save characters starting from the end of the array rather than the begining
@@ -48,7 +48,11 @@ if (product <= Num){result = start_value;}
 else break;
 start_value += 1;
 product = 1.0;}
-*(result_as_string + str_ptr) = (start_value-result_old -1 + '0');str_ptr += 1;}
+
+if   (!(decimal_digit_Basic ((char)(start_value-result_old -1 + '0'))))break;
+
+*(result_as_string + str_ptr) = (start_value-result_old -1 + '0');
+str_ptr += 1;}
 *(result_as_string + str_ptr) = '\0';}
 
 

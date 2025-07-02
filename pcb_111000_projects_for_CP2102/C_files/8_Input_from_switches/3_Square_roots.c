@@ -5,10 +5,10 @@ long Num_1;
 char result[9];
 int p;
 
-setup_328_HW;
+setup_328_HW_A;
 
-if(reset_status == 2)String_to_PC_Basic(message_2);
-else String_to_PC_Basic(message_1);
+if(reset_status == 2)Serial.write(message_2);
+else Serial.write(message_1);
 
 wait_for_switch_release;
 

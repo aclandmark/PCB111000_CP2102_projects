@@ -21,7 +21,9 @@ char digits[8];
 int main(void){
 char mode;
 
-setup_HW;
+setup_328_HW;
+
+One_wire_comms_any_segment_clear_all();
 
 String_to_PC_Basic("\r\n\r\nManipulating one of the PORT registers\r\n");
 
@@ -34,7 +36,6 @@ if(User_response =='r')
 Type bit names\r\n\
 z, o, tw, th, fo, fi, si or se  ('x' when done)");
 
-
 do{
 if(select_bits())
 {cpu_reg_2 = 1;Display_registers; _delay_ms(500);
@@ -45,14 +46,18 @@ if(select_bits())
 Display_registers;} 
 }while (keypress != 'x');
 
+
 String_to_PC_Basic("\r\n\r\nStep 2  Copy to PORT register ak\r\n");
 waitforkeypress_Basic();
 port_reg = cpu_reg_1;
 cpu_reg_1 = 0;
 Display_registers;}
 
+
 if(User_response == 'R'){String_to_PC_Basic("\r\nport_reg |= (1 << one) | (1 << two) | (1 << five) | (1 << six);\r\n");
 port_reg |= (1 << one) | (1 << two) | (1 << five) | (1 << six);Display_registers;}
+
+
 
 String_to_PC_Basic("\r\nTo manipulate bits\r\n\t\
 send 'r' to clear one\r\n\t\
@@ -78,8 +83,8 @@ case 's': set_bit_text; port_reg = port_reg | cpu_reg_1;break;
 case 'c': change_bit_text; port_reg = port_reg ^ cpu_reg_1;break;
 case 't': cpu_reg_2 = port_reg & cpu_reg_1;test_bit_text; break;}
 
-update_display;}}
 
+update_display;}}
 
 
 /******************************************************************************************************/
@@ -89,20 +94,10 @@ while(!(select_bits()));
 Display_registers;}}
 
 
-/******************************************************************************************************/
-
-
-
-
-/******************************************************************************************************/
 char set_update(char bit_num)
 {if(!(reg_bkp[bit_num])){update_reg = 0;reg_bkp[bit_num] = 1;} 
 else update_reg = 1;return update_reg;}
 
-
-
-
-/******************************************************************************************************/
 char select_bits(void){
     update_reg = 0;
 keypress = waitforkeypress_Basic();

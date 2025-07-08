@@ -21,7 +21,7 @@ int main (void)      						//Example 11
     if (overflow)PORT_1 |= 1;
     if (PORT_1 & 0x8000) overflow = 1;
     else overflow = 0;
-    while(switch_1_down);  }}
+    while(switch_1_down)wdr();  }}
 
 
   

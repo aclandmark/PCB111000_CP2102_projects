@@ -37,7 +37,7 @@ BWop = waitforkeypress_Basic();
 if (BWop == '~') 
 {Char_to_PC_Basic('N');comp = 1; BWop = waitforkeypress_Basic();}else comp = 0;                    //detect complement operator
 if ((BWop != '|') && (BWop != '^') && (BWop != '&'))
-SW_reset;                                                                    //reset if duff char was sent 
+{String_to_PC_Basic("?");SW_reset;}                                        //reset if duff char was sent 
 
 switch(BWop){
   case '|': String_to_PC_Basic("OR"); break;

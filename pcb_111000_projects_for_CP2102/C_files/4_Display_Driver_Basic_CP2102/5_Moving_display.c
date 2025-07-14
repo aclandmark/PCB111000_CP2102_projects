@@ -26,6 +26,8 @@ Num_string_to_display (display_string, 0 );SW_Delay_ms(100);
 for(int m = 0; m < 15; m++){
 display_string[15-m] = display_string[15-m-1];}
 
+while(switch_3_down);
+
 if(switch_1_down) break;}
 while(switch_1_down);
 SW_reset;}

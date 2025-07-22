@@ -42,7 +42,7 @@ if Cin is unity Cout is A|B
 
 
 
-//Type main rotine here
+
 int main (void) {
 long dividend, dividend_mem, divisor, result, modulo;
 

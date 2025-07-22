@@ -44,14 +44,13 @@ if Cin is unity Cout is A|B
 
 //Type main rotine here
 int main (void) {
-long dividend, dividend_bkp, divisor, result;
-unsigned long mask;
-char digits[8], num_bits, num_bits_bkp;
+long dividend, dividend_mem, divisor, result, modulo;
+
+unsigned long mask = (unsigned long)0x80000000;
+char digits[8],num_bits, num_bits_mem;
 int q;
 
 setup_328_HW;
-for(int m = 0; m <= 7; m++)digits[m] = 0;
-One_wire_comms_any_segment_clear_all();
 
 if(reset_status != 2)String_to_PC_Basic
 ("\r\nEnter 2 numbers to be multiplied\r\n\
@@ -61,72 +60,50 @@ else String_to_PC_Basic("\r\n");
 while(switch_1_down);
 
 dividend = Int_KBD_to_display(digits);
+String_to_PC_Basic(" / ");
 divisor = Int_KBD_to_display(digits);
-dividend_bkp = dividend;
+String_to_PC_Basic(" = ");
+dividend_mem = dividend;
 result = 0;
 num_bits = 32;
-digits[0] = dividend;
-digits[1] = divisor;
+
+
 
 /*********************Divide routine*************************/
-mask = (unsigned long) 0x80000000;
-newline_Basic();
-print_long_as_binary(dividend, 'A');
-while (!(dividend_bkp & (mask))){dividend_bkp = dividend_bkp << 1; num_bits -=1;}
-print_long_as_binary(dividend_bkp, 'B');  Int_to_PC_Basic(num_bits);
-num_bits_bkp = num_bits;
+while (!(dividend_mem & (mask))){dividend_mem = dividend_mem << 1; num_bits -=1;}
+num_bits_mem = num_bits;
 
 while ((dividend >> 1) >= divisor) {dividend =  (dividend >> 1); num_bits -= 1;}
-for (int m = 0; m < num_bits; m++) dividend_bkp = dividend_bkp << 1;
+for (int m = 0; m < num_bits; m++) dividend_mem = dividend_mem << 1;
 
-
-print_long_as_binary(dividend, 'C');Int_to_PC_Basic(num_bits);
-print_long_as_binary(dividend_bkp,'D');
-Int_to_PC_Basic(num_bits_bkp - num_bits);
-
-
-
-for (int p = 0; p < (num_bits_bkp - num_bits ); p++){
-
+for (int p = 0; p < (num_bits_mem - num_bits ); p++){
 q = p;
-dividend = dividend - divisor;    result = (result << 1) | 1;    print_long_as_binary(dividend, 'E');
-print_long_as_binary(result, 'K');
-
-
-mask = (unsigned long) 0x80000000;
-dividend = dividend << 1; 
-if (dividend_bkp & mask)dividend |= 1;  print_long_as_binary(dividend, 'F');
-
-dividend_bkp = dividend_bkp << 1;
-print_long_as_binary(dividend_bkp, 'H');
-
-
-while (divisor > dividend) {result = (result << 1);  print_long_as_binary(result, 'K');
-
-p += 1; q += 1;
-if (p == (num_bits_bkp - num_bits))break;       //{result = (result << 1);break;}
- dividend = dividend << 1; 
   
-  if (dividend_bkp & mask)dividend |= 1;
-  dividend_bkp = dividend_bkp << 1;
-  print_long_as_binary(dividend, 'G');  
-  print_long_as_binary(dividend_bkp, 'H');} 
-} 
+dividend = Logic_subtract_Num1_Num_2(dividend, divisor);
 
-if (q != (num_bits_bkp - num_bits))result = (result << 1) | 1;
-//if (dividend >= divisor);   { result = (result << 1) | 1;    print_long_as_binary(dividend, 'E');
-//print_long_as_binary(result, 'K');}
+result = (result << 1) | 1;   
+dividend = dividend << 1; 
+if (dividend_mem & mask)dividend |= 1;  
 
-Int_to_PC_Basic(result);
+dividend_mem = dividend_mem << 1;
 
-//SW_reset;
+while (divisor > dividend) {result = (result << 1);  
+p += 1; q += 1;
+if (p == (num_bits_mem - num_bits))break; 
+ dividend = dividend << 1; 
+  if (dividend_mem & mask)dividend |= 1;
+  dividend_mem = dividend_mem << 1;  }} 
 
+if (q != (num_bits_mem - num_bits)){result = (result << 1) | 1;
+modulo = dividend - divisor;}
+else modulo = dividend;
+
+
+Long_Hex_and_Int_to_PC_Basic (10, result);
+String_to_PC_Basic(" % ");
+Int_to_PC_Basic(modulo);
 /************************************************************/
 
-
-digits[2] = result;
-One_wire_comms_3_bytes(digits);
-Long_Hex_and_Int_to_PC_Basic (10, result);
 
 while(switch_1_up);
 SW_reset;}

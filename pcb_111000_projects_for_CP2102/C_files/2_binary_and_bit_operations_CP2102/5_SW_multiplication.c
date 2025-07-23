@@ -20,7 +20,7 @@ Num_B = Int_KBD_to_display(digits);
 Num_C = 0;
 for (int m = 0; m <=15; m++)
 {
-  if (Num_B & (1 << m))Num_C = Logic_Add(Num_C, (Num_A << m));                           //Num_C += (Num_A << m);
+  if (Num_B & (1 << m))Num_C = Logic_Add(Num_C, (Num_A << m));
 }
 
 

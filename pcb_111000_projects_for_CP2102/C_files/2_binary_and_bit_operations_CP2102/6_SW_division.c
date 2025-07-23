@@ -1,4 +1,6 @@
 
+//Divide routine
+
 
 while (!(dividend_mem & (mask))){dividend_mem = dividend_mem << 1; num_bits -=1;}
 num_bits_mem = num_bits;

@@ -9,6 +9,8 @@ char wait_for_return_key_Basic(void);
 char decimal_digit_Basic (char);
 
 
+
+
 long Int_KBD_to_display_Local(char digits[], long* divisor, char * decimal_places){    
 char keypress;
 int digit_counter = 0;
@@ -30,9 +32,7 @@ return atol (digits);}
 
 
 
-
-
-
+/*************************************************************************************************************************************/
 void print_long_as_binary(long Num, char sym){
   unsigned long mask = (unsigned long)0x80000000;
 
@@ -44,6 +44,7 @@ for (int m = 0; m <= 31; m++){
 
 
 
+/****************************************************************************************************************************************/
 void print_fpn_as_binary(float fpn, char sym){
   unsigned long mask = (unsigned long)0x80000000;
 long int_num;
@@ -64,3 +65,8 @@ for (int m = 0; m <= 31; m++){
   if ((unsigned long)int_num & (mask)) Char_to_PC_Basic('1'); else Char_to_PC_Basic('0');
  mask = mask >> 1;
   } Char_to_PC_Basic(sym);Char_to_PC_Basic('\t');}
+
+
+
+
+/*****************************************************************************************************************************************/

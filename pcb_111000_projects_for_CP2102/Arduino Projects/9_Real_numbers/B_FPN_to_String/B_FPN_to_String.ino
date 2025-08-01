@@ -1,4 +1,18 @@
 
+/*Printing out a real number
+
+
+First of all we acquire a real number from the KBD as we did for project "A_FPN_from_KBD"
+and print it out using the Arduino library function
+We then print it out using our own DIY function
+    We simply divide the integer result by 2 raised to the power of the exponent (x-1)
+     This gives us the integer part of the result
+     We then continue by multiplying the remainder by 10 and repeating the division to get the first decimal place
+     This multiplication and division process can be repeated until the required number of decimal places has been printed out.*/
+
+
+
+
 
 //https://www.h-schmidt.net/FloatConverter/IEEE754.html
 

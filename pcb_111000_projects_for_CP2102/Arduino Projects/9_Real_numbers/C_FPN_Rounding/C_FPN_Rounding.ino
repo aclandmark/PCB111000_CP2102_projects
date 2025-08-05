@@ -15,128 +15,49 @@ We then print it out using our own DIY function
 //https://www.h-schmidt.net/FloatConverter/IEEE754.html
 
 
-//#define shift_string_left   for(int m = 0; m > 14; m++)num_string[14 - m] = num_string[13 - m]; num_string[0] = 0;
-//#define print_string        for(int m = 0; m > 15; m++)Char_to_PC_Basic(num_string[m]);        
-
 
 
 #include <string.h>
 #include "FPN_Rounding_header.h"
 #include "Local_subroutines.c"
 
-
 void print_fpn_as_binary(float, char);
+
+
 
 int main (void){
   char digits[12];
 long dividend, divisor;
 int twos_expt;
+long tens_expt;
 long int_result;
 char decimal_places;
- float fpn_result;
-long Div, mod;
+char leading_zeros = 0;
 char num_string[15];
- char  string_offset;
-char string_length;
-char leading_zeros;
-char digit_counter;
 
-     
 setup_328_HW;
-if (reset_status != 2)String_to_PC_Basic("Enter real number (i.e. with decimal point)\r\n");
+if (reset_status != 2)String_to_PC_Basic("\r\nEnter real number and an integer)\r\n");
 
-dividend = Int_KBD_to_display_Local(digits, &divisor, &decimal_places);
-Char_to_PC_Basic ('\t');Int_to_PC_Basic(dividend);
-String_to_PC_Basic (" / ");Int_to_PC_Basic(divisor);
+while(1){
+dividend = Real_KBD_to_display_Local(digits, &tens_expt, &decimal_places);                  //Type in a real number such as 12.3456 and convert it to 123456 with tens exponent of -4
+Char_to_PC_Basic('\t');
+divisor = Int_KBD_to_display(digits);                                                       //Type in an integer number with which to divide the real number
 
+int_result = int_divide (dividend, tens_expt, &twos_expt);                                   //Converts 12456 x 10^-4 to a binary integer number with a twos exponent
+int_result = int_result/divisor;                                                             //Divides the real number by the integer number
 
-int_result = int_divide (dividend, divisor, &twos_expt);
+String_to_PC_Basic("Num decimal places?  ");
+decimal_places = waitforkeypress_Basic() - '0';  Char_to_PC_Basic(decimal_places + '0');
 
-Char_to_PC_Basic ('\t');
-Int_to_PC_Basic(int_result);
-String_to_PC_Basic (" x 2 exp ");
-Hex_and_Int_to_PC_Basic(10, twos_expt);
+newline_Basic();
 
-fpn_result = assemble_fpn (int_result,twos_expt);
-
-Char_to_PC_Basic ('\t');
-print_fpn_as_binary(fpn_result, '\t');
-
-
-Serial.print(fpn_result,decimal_places);
+Real_num_to_PC_no_rounding(int_result, twos_expt, decimal_places);                          //Prints out the result of the division with no rounding
+Real_num_to_string_with_rounding(num_string, int_result, twos_expt, decimal_places);        //and with rounding to test the operation of our code
+newline_Basic();
+if(waitforkeypress_Basic()== 'x')break;}
 
 _delay_ms(25);
 
-
-
-/**********************DIY function for printing out a real number************/
-Char_to_PC_Basic('\t');
- 
- if (twos_expt < 0){
- divisor = 1;
- twos_expt = twos_expt * (-1);                                                  // We divide not multiply by 2^twos_expt
-
- while (twos_expt >= 31){twos_expt -= 1; int_result = int_result >> 1;}         //Long numbers only have room for 32 bits
- for (int m = 0; m < twos_expt; m++) divisor *= 2;                              //Convert 2^twos_expt to a number (i.e. 2^3 to 8)
-
- real_divide(int_result, divisor, &Div, &mod);                                  //Divide the integer part by the exponent part to get the integer result
-
-leading_zeros = 0;                                                              //A result of the form 0.0055 has 3 leading zeros
-digit_counter = 0;
- if (!(Div))leading_zeros = 1;
-ltoa (Div, num_string, 10);                                                     //Populate string with the integer result
-string_offset = 0;                                                              //Calculate the number of digits in the string
-while(num_string[string_offset])string_offset += 1;                             
-num_string[string_offset++] = '.';                                              //Place the decimal point in the string
-
-string_length = string_offset + decimal_places;                                 //Decimal places was entered by the user
-
-
-for(int m = 0; m <= decimal_places; m++){                                       //Obtain extra decimal place for rounding
- while (mod >= 0x7FFFFFFF/10){mod = mod/10; divisor /= 10;}                     //For small numbers the remainder times 10 may may be two large  
-                                                                              //If this happens we divide both dividend and divisor by 10
- real_divide(mod*10, divisor, &Div, &mod);
-num_string[string_offset++] = Div + '0';
-if(Div) digit_counter += 1;
-if ((!(Div)) && (leading_zeros) && (!(digit_counter)))leading_zeros += 1;}
-                                                                               //Repeat division for as many decimal places as the user requests.
-num_string[string_offset] = 0;        
-String_to_PC_Basic (num_string);
-
-Char_to_PC_Basic('\t'); Int_to_PC_Basic(leading_zeros);
-
-string_offset = 0;
-while (num_string[string_offset] != '.')string_offset += 1;
-while(num_string[string_offset]) {num_string[string_offset] = num_string[string_offset+1]; string_offset += 1;}
-//String_to_PC_Basic (num_string);
-Char_to_PC_Basic ('\t');
-
-ltoa ((atol(num_string) + 5), num_string, 10);
-
-
-if(!(leading_zeros)){
-for(int p = 0; p <= decimal_places; p++){num_string[string_length-1] = num_string[string_length - 2]; string_length -= 1;}
-num_string[string_length] = '.';}
-else{
-  for(int p = 0; p <= (leading_zeros); p++){
-  for (int q = 0; q < 14; q++)num_string[14 - q] = num_string[13 - q];}
-
-  for (int p = 0; p <= leading_zeros; p++)num_string[p] = '0';
-  num_string[1] = '.';
-  for(int p = 0; p <= 14; p++){if(num_string[p]==0){num_string[p-1] = 0;break;}}
-}
-
-
-
-
-String_to_PC_Basic (num_string);
-}
-
-else {while(twos_expt) 
-{int_result *= 2; twos_expt -= 1;}Int_to_PC_Basic(int_result);}               //For very large numbers division is not required.
-
-
- 
  /********************************************************************************/
 SW_reset;}
 
@@ -144,4 +65,143 @@ SW_reset;}
 
 
 
+
+void Real_num_to_string_with_rounding(char * num_string, long int_num, int twos_expt, char decimal_places){
+long  divisor;
+long Div, mod;
+char  string_offset;
+char string_length;
+char leading_zeros = 0;
+char digit_counter;
+
+
+/**************************************************************************************************************************************/
+if (twos_expt >= 0) {while(twos_expt) 
+{int_num *= 2; twos_expt -= 1;}
+Int_to_PC_Basic(int_num);}                                                       //For very large numbers division is not required.
+
+
+
+ /***************************************************************************************************************************************/
+ if (twos_expt < 0){
+ divisor = 1;
+ twos_expt = twos_expt * (-1);                                                  // We divide not multiply by 2^twos_expt
+
+ while (twos_expt >= 31){twos_expt -= 1; int_num = int_num >> 1;}               //Long numbers only have room for 32 bits
+ for (int m = 0; m < twos_expt; m++) divisor *= 2;                              //Convert 2^twos_expt to a number (i.e. 2^3 to 8) such as 2, 4, 8, 16....
+
+
+/*****************************Start as for Prog B_FPN_to PC by obtaining the integer result and remainder*******************************************/
+real_divide(int_num, divisor, &Div, &mod);                                   //Divide the integer part by the exponent part to get the integer result
+
+
+ltoa (Div, num_string, 10);                                                     //Populate string with the integer result (ltoa: "long to askii" is a C library function)
+string_offset = 0;                                                              //Calculate the number of digits in the string
+while(num_string[string_offset])string_offset += 1;                             //Do not add the decimal point                          
+
+if (Div){
+/*********************************************Calculate as many the decimal points as required by the user************************************************/
+for(int m = 0; m <= decimal_places; m++){                                       //Obtain one extra decimal place for rounding
+real_divide(mod*10, divisor, &Div, &mod);                                        //Place decimal digits in num_string along side the integer result and decimal place
+num_string[string_offset++] = Div + '0';   }                                    //String offset points to the next free location in num_string
+num_string[string_offset] = 0;                                                  //Terminate the string       
+
+
+Char_to_PC_Basic('\t');Char_to_PC_Basic('\t');String_to_PC_Basic (num_string);   //Print out the result with no decimal point and  without rounding
+String_to_PC_Basic ("\t\t");
+
+ltoa ((atol(num_string) + 6), num_string, 10);        //5!                          //Use C function Askii to Long Int to convert num_string to an integer, add 5 and convert it back to a string
+Char_to_PC_Basic('\t');String_to_PC_Basic (num_string); Char_to_PC_Basic('\t'); //Print out the result with no decimal point and prior to deleting the extra digit
+/*************************OK to here*************************************************/
+
+string_offset = 0; 
+while(num_string[string_offset])string_offset += 1;                             //Calculate the number of digits in the string
+string_offset -=1;
+
+for(int m = 0; m <(string_offset - decimal_places); m++)                        //Print out the digits to the left of the decimal point
+Char_to_PC_Basic (num_string[m]);
+Char_to_PC_Basic('.');
+for(int m = (string_offset - decimal_places); m < string_offset; m++) 
+Char_to_PC_Basic (num_string[m]);  }                                             //Print out the digits to the right of the decimal point
+
+
+//if (!(Div))
+else{
+leading_zeros = 1;
+digit_counter = 0;
+for(int m = 0; m <= decimal_places; m++){    
+
+while (mod >= 0x7FFFFFFF/10){mod = mod/10; divisor /= 10;}                     //For small numbers the remainder times 10 may may be two large  
+     
+real_divide(mod*10, divisor, &Div, &mod);       
+num_string[string_offset++] = Div + '0';      
+if(Div) digit_counter += 1; 
+if ((!(Div)) && (leading_zeros) && (!(digit_counter)))
+leading_zeros += 1;}
+num_string[string_offset] = 0;
+
+
+
+int num_pre_rounding = atol(num_string); Char_to_PC_Basic('\t');Int_to_PC_Basic(num_pre_rounding);
+int num_post_rounding = num_pre_rounding + 6; Int_to_PC_Basic(num_post_rounding);                                             //should really be 5
+char num_digits_pre_rounding = 0;
+char num_digits_post_rounding = 0;
+
+while(num_pre_rounding/10){num_digits_pre_rounding += 1;  num_pre_rounding = num_pre_rounding/10;} Char_to_PC_Basic('\t'); Int_to_PC_Basic(num_digits_pre_rounding);
+while(num_post_rounding/10){num_digits_post_rounding += 1; num_post_rounding = num_post_rounding/10;}Int_to_PC_Basic(num_digits_post_rounding);
+
+if (num_digits_post_rounding > num_digits_pre_rounding)leading_zeros -=1;
+
+
+
+String_to_PC_Basic("\t\t"); String_to_PC_Basic (num_string);  
+ltoa ((atol(num_string) + 6), num_string, 10);                            //should reLLY BE 5
+String_to_PC_Basic("\t\t"); String_to_PC_Basic (num_string); 
+
+string_offset = 0; while (num_string[string_offset])string_offset += 1; 
+string_offset -= 1;
+num_string[string_offset] = 0;
+
+String_to_PC_Basic("\t\t0.");
+for(int m = 0; m < (leading_zeros-1); m++)Char_to_PC_Basic('0');
+String_to_PC_Basic(num_string);
+
+
+}
+
+//String_to_PC_Basic (num_string);
+}
+
+}
+
 /***************************************************************************************************************************/
+
+
+
+void Real_num_to_PC_no_rounding(long int_num, int twos_expt, char decimal_places){
+long  divisor;
+long Div, mod;
+
+
+Char_to_PC_Basic('\t');
+ 
+ if (twos_expt < 0){
+ divisor = 1;
+ twos_expt = twos_expt * (-1);
+
+ while (twos_expt >= 31){twos_expt -= 1; int_num = int_num >> 1;}
+ for (int m = 0; m < twos_expt; m++) divisor *= 2;
+
+ real_divide(int_num, divisor, &Div, &mod); 
+ Int_to_PC_Basic(Div);
+ Char_to_PC_Basic('.');
+ for(int m = 0; m < decimal_places; m++){
+
+ while (mod >= 0x7FFFFFFF/10){mod = mod/10; divisor /= 10;}
+  
+ real_divide(mod*10, divisor, &Div, &mod);
+ Char_to_PC_Basic(Div + '0');}}
+
+
+else {while(twos_expt) {int_num *= 2; twos_expt -= 1;}Int_to_PC_Basic(int_num);}}
+ 

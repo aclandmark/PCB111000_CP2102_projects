@@ -5,6 +5,22 @@ char wait_for_return_key_Basic(void);
 void Long_Hex_and_Int_to_PC_Basic (char, long);
 
 
+/****************************************************************************************************************************************************/
+void Int_num_string_from_PC(char digits[]){              	//Acquires an integer string from the keyboard
+char keypress;
+char digit_counter = 0;
+while(1){
+if ((keypress = wait_for_return_key_Basic())  =='\r')break;     //Detect return key press (i.e \r or\r\n)
+if ((decimal_digit(keypress)) || (keypress == '\b')
+ || (keypress == '-'))
+{Char_to_PC_Basic(keypress);
+if (keypress == '\b'){  digit_counter -= 1; }                      				//Backspace key
+else
+{digits[digit_counter++] = keypress;}                             			//Add new keypress           
+}}
+digits[digit_counter] = 0;}
+
+
 
 /****************************************************************************************************************************************************/
 long Int_KBD_to_display(char digits[]){              	//Acquires an integer string from the keyboard and returns the binary equivalent

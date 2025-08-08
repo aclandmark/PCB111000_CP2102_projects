@@ -46,11 +46,9 @@ char decimal_places;
 setup_328_HW;
 if (reset_status != 2)String_to_PC_Basic("Enter real number (i.e. with decimal point)\r\n");
 
-
-dividend = Int_KBD_to_display_Local(digits, &divisor, &decimal_places);     //Step 1
+dividend = Real_Num_from_PC_local(digits, &divisor, &decimal_places);     //Step 1
 Char_to_PC_Basic ('\t');Int_to_PC_Basic(dividend);
 String_to_PC_Basic (" / ");Int_to_PC_Basic(divisor);
-
 
 int_result = int_divide (dividend, divisor, &twos_expt);                    //Steps 2 to 4
 
@@ -71,12 +69,12 @@ SW_reset;}
 
 
 /***************************************************************************************************************************/
-long int_divide(long A, long B, int * zero_counter)    
+long int_divide(long A, long B, int * binary_pt_counter)    
   {
     long Div, mod;
     long Int_result;
 
- *zero_counter = 0;
+ *binary_pt_counter = 0;
  
 real_divide(A, B, &Div, &mod);                      //Perform the first division to get the integer result plus remainder
  Int_result = Div;
@@ -84,10 +82,10 @@ while (!(Int_result & 0x1000000))                   //Reserve 25 bits for the re
 {real_divide(mod*2, B, &Div, &mod);                 //Double the remainder and repeat the division.
  Int_result = Int_result <<1;                       //For each division shift result one place left
     if (Div) Int_result = Int_result | 1;           //If the result was one place a one in the bit just vacated
-    *zero_counter -= 1;}                            //The number of bits to the right of the binary point
+    *binary_pt_counter -= 1;}                            //The number of bits to the right of the binary point
    Int_result += 1;                                 //Add 1 to round up the result
    Int_result = Int_result>> 1;                     //Reduce number to 24 bits
-  *zero_counter += 1;
+  *binary_pt_counter += 1;
    
   return Int_result; } 
 

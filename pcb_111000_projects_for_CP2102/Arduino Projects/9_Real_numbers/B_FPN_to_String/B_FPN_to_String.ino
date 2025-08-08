@@ -35,7 +35,7 @@ long Div, mod;
 setup_328_HW;
 if (reset_status != 2)String_to_PC_Basic("Enter real number (i.e. with decimal point)\r\n");
 
-dividend = Int_KBD_to_display_Local(digits, &divisor, &decimal_places);
+dividend = Real_Num_from_PC_local(digits, &divisor, &decimal_places);
 Char_to_PC_Basic ('\t');Int_to_PC_Basic(dividend);
 String_to_PC_Basic (" / ");Int_to_PC_Basic(divisor);
 

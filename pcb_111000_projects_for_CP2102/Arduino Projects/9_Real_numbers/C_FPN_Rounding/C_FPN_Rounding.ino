@@ -1,14 +1,22 @@
 
-/*Printing out a real number
+/*
+The result that we obtain from real number arithmetic is usually a fraction below the actual result.
+For example we might get a result of 4.999 when it should have been 5.  We therefore often round the
+result up.
+Consider 4.999.
+We obtain an extra decimal place giving us 4.9997 for example
+We then remove the decimal point and add 5 to the result givving us 50002
+We then remove the unwanted right hand bit and replace the decimal point giving 5.000
 
+Consider 0.00957
+We count the number of leading zeros then add 5 to 957 giving us 962
+Removing the right hand digit leaves us with 96
+We then print out the leading zeros plus decimal point giving 0.00 and add 96.
 
-First of all we acquire a real number from the KBD as we did for project "A_FPN_from_KBD"
-and print it out using the Arduino library function
-We then print it out using our own DIY function
-    We simply divide the integer result by 2 raised to the power of the exponent (x-1)
-     This gives us the integer part of the result
-     We then continue by multiplying the remainder by 10 and repeating the division to get the first decimal place
-     This multiplication and division process can be repeated until the required number of decimal places has been printed out.*/
+Rounding numbers especially those with leading zeros can produce unexpected results.
+It turns out to be a bit more complicated than might have been expected.  
+Luckily Arduino has a library function that looks after all the complexity.
+*/
 
      
 

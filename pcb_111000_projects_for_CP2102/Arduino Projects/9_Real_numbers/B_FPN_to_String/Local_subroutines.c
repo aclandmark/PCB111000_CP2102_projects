@@ -11,7 +11,7 @@ void real_divide(long, long, long *, long *);
 
 
 
-long Int_KBD_to_display_Local(char digits[], long* divisor, char * decimal_places){    
+long Real_Num_from_PC_local(char digits[], long* divisor, char * decimal_places){    
 char keypress;
 int digit_counter = 0;
 newline_Basic();

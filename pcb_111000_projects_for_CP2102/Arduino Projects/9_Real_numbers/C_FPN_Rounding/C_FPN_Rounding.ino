@@ -63,7 +63,7 @@ decimal_places = waitforkeypress_Basic() - '0';  Char_to_PC_Basic(decimal_places
 Char_to_PC_Basic('\t');
 
 Real_num_to_PC_no_rounding(int_result, twos_expt, decimal_places+2);
-Char_to_PC_Basic('\t');
+String_to_PC_Basic("\t\t");
 Real_num_to_string_with_rounding(num_string, int_result, twos_expt, decimal_places);        //and with rounding to test the operation of our code
 newline_Basic();
 }

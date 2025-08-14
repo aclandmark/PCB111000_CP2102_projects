@@ -43,7 +43,7 @@ while(num_string[string_offset])string_offset += 1;                             
 if (Div){
 /*********************************************Calculate as many the decimal points as required by the user************************************************/
 for(int m = 0; m <= decimal_places; m++){                                       //Obtain one extra decimal place for rounding
-if (string_offset == 8){decimal_places = m-1; break;}
+if (string_offset == 9){decimal_places = m-1; break;}
 real_divide(mod*10, divisor, &Div, &mod);                                        //Place decimal digits in num_string along side the integer result and decimal place
 num_string[string_offset++] = Div + '0';   }                                    //String offset points to the next free location in num_string
 num_string[string_offset] = 0;                                                  //Terminate the string       

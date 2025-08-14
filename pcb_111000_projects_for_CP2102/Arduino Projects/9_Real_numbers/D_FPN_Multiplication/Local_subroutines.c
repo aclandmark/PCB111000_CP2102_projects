@@ -104,6 +104,8 @@ void real_divide(long A, long B, long *Div, long *mod)
 float assemble_fpn (long int_result,int twos_expt){
 float fpn;
 
+ if (!(int_result & 0x800000)){int_result *= 2; twos_expt -= 1;}
+
 twos_expt += 24;                                                        //Shift binary point from right hand end to left hand end
 twos_expt += 126;                                                       //Floating point number convention                
 int_result = int_result  &  (~((unsigned long)0x80000000 >> 8));        //Clear bit 23 (which is always 1)

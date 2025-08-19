@@ -17,7 +17,7 @@ void SW_Delay_ms(int);
 extern char display_buffer[8];
 
 
-
+#define wdr()  __asm__ __volatile__("wdr")
 
 /*********************************************************************************************************************/
 void rotate_display(){   

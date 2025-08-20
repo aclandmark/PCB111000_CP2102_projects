@@ -15,7 +15,7 @@ Num_2 = Int_number_from_IO();
 
 Int_Num_to_PC_A(Num_1, num_string, '\t'); 
 Serial.write("  divided by  ");
-Int_to_PC_Basic (Num_2);
+Int_Num_to_PC_A(Num_2, num_string, '\t');
 Serial.write("  equals\r\n");
 
 fraction_to_decimal_string_Local(Num_1, Num_2, display_buffer); 

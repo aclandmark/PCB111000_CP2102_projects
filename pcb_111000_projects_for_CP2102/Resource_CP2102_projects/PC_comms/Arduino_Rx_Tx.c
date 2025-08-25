@@ -14,13 +14,24 @@ Note however
 
 
 void Check_num_for_to_big_or_small_A(float);						//Prototype required by Sc_Num_to_PC()
+char wait_for_return_key_A(void);
+char decimal_digit_A (char);
 
 
-char isCharavailable_A (int m){int n = 0;
-while (!(UCSR0A & (1 << RXC0)))											//Return 1 immediately that a character is received
-{n++; wdr();															//No character yet: Increment counter											
-if (n>8000) {m--;n = 0;}if (m == 0)return 0;}							//Counter overflows before a character has been received: return zero
-return 1;}
+void Int_num_string_from_PC(char digits[]){              	//Acquires an integer string from the keyboard
+char keypress;
+char digit_counter = 0;
+while(1){
+if ((keypress = wait_for_return_key_A())  =='\r')break;     //Detect return key press (i.e \r or\r\n)
+if ((decimal_digit_A(keypress)) || (keypress == '\b')
+ || (keypress == '-'))
+{Serial.write(keypress);
+if (keypress == '\b'){  digit_counter -= 1; }                      				//Backspace key
+else
+{digits[digit_counter++] = keypress;}                             			//Add new keypress           
+}}
+digits[digit_counter] = 0;}
+
 
 
 /******************************************************************************************/

@@ -44,7 +44,7 @@ char digit_counter;
 /**************************************************************************************************************************************/
 if (twos_expt >= 0) {while(twos_expt) 
 {int_num *= 2; twos_expt -= 1;}
-Int_to_PC_Basic(int_num);}                                                       //For very large numbers division is not required.
+Int_Num_to_PC_A(int_num, num_string, ' ');}			//Int_to_PC_Basic(int_num);}                                                       //For very large numbers division is not required.
 
  /***************************************************************************************************************************************/
  if (twos_expt < 0){

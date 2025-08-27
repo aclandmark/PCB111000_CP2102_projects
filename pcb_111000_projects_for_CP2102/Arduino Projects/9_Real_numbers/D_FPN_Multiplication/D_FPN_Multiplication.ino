@@ -44,7 +44,7 @@ Serial.write("\t=\t");
 
 Num[p] = int_divide (Num[p], tens_expt, &twos_expt[p]);    
 Int_Num_to_PC_A(Num[p], num_string, ' ');
- Serial.write(" times 2^");  Int_Num_to_PC_A(twos_expt, num_string, ' ');
+ Serial.write(" times 2^");  Int_Num_to_PC_A(twos_expt[p], num_string, ' ');
  Float_Num[p] = atof(digits)/(float)tens_expt;
  }
 

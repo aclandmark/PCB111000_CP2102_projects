@@ -189,7 +189,12 @@ void Int_to_PC_Basic (long number)
   Char_to_PC_Basic(' ');
 }
 
-
+/*********************************************************************/
+void Start_timer_T1_sub(char Counter_speed, unsigned int Start_point){ 
+TIMSK1 |= (1 << TOIE1);
+TCNT1H = (Start_point >> 8);
+TCNT1L = Start_point & 0x00FF;
+TCCR1B = Counter_speed;}
 
 /*************************************************************************************************************************************************************************************/
 /*void Check_num_for_to_big_or_small(float num)											//Exits if the result of floating point arithmetic exceeds permitted limits 

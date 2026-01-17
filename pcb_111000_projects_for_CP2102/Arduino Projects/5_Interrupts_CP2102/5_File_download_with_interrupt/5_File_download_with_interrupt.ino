@@ -5,6 +5,8 @@ To make this work open file "Resource_CP2102_projects\Chip2chip_comms\One_wire_t
 
 Find subroutine ISR(PCINT0_vect) and enable global interrupts as follows: "ISR(PCINT0_vect){ sei(); ........."
 
+May need to insert delay between adjacent bytes  (click in box next to send file button)
+to keep Bray++ stable
  */
 
 
